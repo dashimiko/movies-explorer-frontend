@@ -1,9 +1,15 @@
+import {Route, Switch} from 'react-router-dom';
 import Main from '../main/Main';
 
 function App() {
   return (
     <div className="page">
-      <Main/>
+      <Switch>
+        <Route path="/">
+          <Main/>
+        </Route>
+      </Switch>
+
     </div>
   );
 }

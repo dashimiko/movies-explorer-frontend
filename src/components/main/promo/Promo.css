@@ -49,11 +49,15 @@
   height: 36px;
   background-color: transparent;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
   padding: 0;
   margin-bottom: 75px;
   color: #000000;
 }
 
+.promo__link {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  display: block;
+  padding: 10px 20px;
+}

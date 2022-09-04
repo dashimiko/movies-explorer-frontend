@@ -33,11 +33,6 @@
   margin: 0;
   padding: 19px 0;
   position: relative;
-  border-bottom: 1px solid #E8E8E8;
-}
-
-.portfolio__link:last-child {
-  border-bottom: none;
 }
 
 .portfolio__link::after {
@@ -52,4 +47,12 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.portfolio__item {
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.portfolio__item:last-child {
+  border-bottom: none;
 }
