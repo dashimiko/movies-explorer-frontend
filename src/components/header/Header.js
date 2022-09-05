@@ -9,7 +9,7 @@ function Header() {
   return (
     <div className={`header header__section_${location.pathname === '/' ? 'pink' : 'white'}`}>
       <div className="header__section section">
-      <Link to='/' className='header__link'>
+      <Link to='/' className='header__link button'>
         <img src={logo} alt="Лого проекта" />
       </Link>
       <Navigation/>

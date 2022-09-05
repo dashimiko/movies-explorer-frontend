@@ -20,6 +20,26 @@
   margin: 0 auto;
 }
 
+.button {
+  opacity: 1;
+  transition: opacity .1s linear;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.link {
+  text-decoration: none;
+  color: #000000;
+  opacity: 1;
+  transition: opacity .1s linear;
+}
+
+.link:hover {
+  opacity: 0.7;
+}
+
 html {
   scroll-behavior: smooth;
 }

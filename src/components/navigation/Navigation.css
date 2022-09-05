@@ -57,6 +57,9 @@
 
 .navigation__button-link {
   margin-left: 30px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .navigation__button-link_black {
@@ -65,3 +68,4 @@
   padding: 8px 20px;
   color: #FFFFFF;
 }
+
