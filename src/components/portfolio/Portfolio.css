@@ -40,7 +40,7 @@
   position: absolute;
   width: 24px;
   height: 18px;
-  background-image: url('../../../images/arrow__icon.svg');
+  background-image: url('../../images/arrow__icon.svg');
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
@@ -55,4 +55,37 @@
 
 .portfolio__item:last-child {
   border-bottom: none;
+}
+
+@media screen and (max-width: 967px){
+  .portfolio {
+    padding: 0 50px;
+  }
+  .portfolio__list {
+    margin-bottom: 90px;
+  }
+  .portfolio__link {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 568px){
+  .portfolio {
+    padding: 0 14px;
+  }
+  .portfolio__link {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .portfolio__list {
+    margin-top: 40px;
+    margin-bottom: 70px;
+  }
+  .portfolio__title {
+    font-size: 14px;
+  }
+  .portfolio__link::after {
+    width: 22px;
+    height: 12px;
+  }
 }

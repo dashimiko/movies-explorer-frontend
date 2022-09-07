@@ -52,3 +52,41 @@
   padding: 0;
   margin: 0;
 }
+
+@media screen and (max-width: 967px){
+  .footer {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 568px){
+  .footer {
+    padding: 0 10px;
+  }
+  .footer__title {
+    font-size: 12px;
+    margin-bottom: 21px;
+    line-height: 14.52px;
+  }
+  .footer__link {
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+  .footer__year {
+    font-size: 12px;
+    line-height: 14.52px;
+    margin-top: 30px;
+    color: #A0A0A0;
+  }
+  .footer__box {
+    margin-top: 30px;
+    flex-direction: column-reverse;
+  }
+  .footer__link-list {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+/*767*/

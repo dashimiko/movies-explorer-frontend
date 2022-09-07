@@ -1,4 +1,4 @@
-import promoPicture from '../../../images/promo_picture.png';
+import promoPicture from '../../images/promo_picture.png';
 
 function Promo() {
   return (

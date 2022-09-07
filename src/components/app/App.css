@@ -40,6 +40,26 @@
   opacity: 0.7;
 }
 
+.title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  padding: 0;
+}
+
+.line {
+  margin: 0;
+  border-top: 1px solid #000000;
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+@media screen and (max-width: 568px) {
+  .title {
+    font-size: 18px;
+    line-height: 22px;
+  }
 }

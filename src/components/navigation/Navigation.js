@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
-function Navigation() {
+function Navigation({ isBurgerOpen, onBurgerClick }) {
 
   const location = useLocation();
 
@@ -14,14 +14,20 @@ function Navigation() {
           </ul>
         </nav>
       ) : (
-        <nav className="navigation__container">
-          <ul className="navigation__list">
-          <li className="navigation__item"><Link className="navigation__link navigation__link_main link">Главная</Link></li>
-            <li className="navigation__item"><Link className="navigation__link link">Фильмы</Link></li>
-            <li className="navigation__item"><Link className="navigation__link link">Сохранённые фильмы</Link></li>
-            <li className="navigation__item navigation__item-profile"><Link className="navigation__link navigation__link_profile link">Аккаунт</Link></li>
-          </ul>
-        </nav>
+        <>
+          <nav className={`navigation navigation_state_${isBurgerOpen ? 'opened' : 'closed'}`} onClick={isBurgerOpen ? onBurgerClick : undefined}>
+            <ul className={`navigation__list navigation__container navigation_${isBurgerOpen ? 'active' : ''}`}>
+              <li className="navigation__item"><Link className="navigation__link navigation__link_main navigation__link_menu link">Главная</Link></li>
+              <li className="navigation__item"><Link className="navigation__link navigation__link_menu link">Фильмы</Link></li>
+              <li className="navigation__item"><Link className="navigation__link navigation__link_menu link">Сохранённые фильмы</Link></li>
+              <li className="navigation__item navigation__item-profile"><Link className="navigation__link navigation__link_profile link">Аккаунт</Link></li>
+            </ul>
+          </nav>
+
+          <div type="button" className={`hamburger-menu navigation_${isBurgerOpen ? 'active' : ''}`} onClick={onBurgerClick}>
+            <span></span>
+          </div>
+        </>
       )}
    </>
   );

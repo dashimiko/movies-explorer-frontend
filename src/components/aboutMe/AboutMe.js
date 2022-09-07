@@ -1,4 +1,4 @@
-import studentPicture from '../../../images/student__picture.jpg';
+import studentPicture from '../../images/student__picture.jpg';
 
 function AboutMe() {
   return (

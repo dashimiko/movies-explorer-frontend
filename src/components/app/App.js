@@ -1,10 +1,16 @@
 import {Route, Switch} from 'react-router-dom';
+import { useState } from 'react';
 import Main from '../main/Main';
-import Footer from '../footer/Footer';
 import Header from '../header/Header';
-import Promo from '../main/promo/Promo';
 
 function App() {
+
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+
+  function onBurgerClick() {
+    setIsBurgerOpen(!isBurgerOpen);
+  }
+
   return (
     <div className="page">
       <Switch>
@@ -12,7 +18,7 @@ function App() {
           <Main/>
         </Route>
         <Route path="/movie">
-          <Header/>
+          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
         </Route>
       </Switch>
 

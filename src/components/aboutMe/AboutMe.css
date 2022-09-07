@@ -1,0 +1,144 @@
+.about-me {
+  width: 100%;
+  padding: 0 70px;
+  box-sizing: border-box;
+}
+
+.about-me__title {
+  margin: 110px 0 23px 0;
+}
+
+.about-me__container {
+  display: flex;
+  margin: 66px 0 100px 0;
+  justify-content: space-between;
+}
+
+.about-me__box {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.about-me__picture {
+  width: 270px;
+  height: 327px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.about-me__heading {
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  margin: 0 0 18px 0;
+  padding: 0;
+}
+
+.about-me__subtitle {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0 0 26px 0;
+}
+
+.about-me__description {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 0;
+  margin: 0 0 79px 0;
+}
+
+.about-me__github {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media screen and (max-width: 967px){
+  .about-me {
+    padding: 0 50px;
+  }
+  .about-me__picture {
+    width: 255px;
+    height: 307px;
+  }
+  .about-me__title {
+    margin-top: 90px;
+  }
+  .about-me__container {
+    margin-bottom: 90px;
+  }
+  .about-me__heading {
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+  .about-me__subtitle {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 20px;
+  }
+  .about-me__description {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 71px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .about-me__box {
+    max-width: 54.5%;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .about-me__box {
+    max-width: 40%;
+  }
+  .about-me__picture {
+    width: 235px;
+    height: 287px;
+  }
+}
+
+@media screen and (max-width: 568px){
+  .about-me {
+    padding: 0 14px;
+  }
+  .about-me__picture {
+    width: 292px;
+    height: 352px;
+  }
+  .about-me__container {
+    flex-direction: column-reverse;
+    margin-top: 60px;
+    margin-bottom: 70px;
+    align-items: center;
+  }
+  .about-me__title {
+    margin-top: 70px;
+    margin-bottom: 28px;
+  }
+  .about-me__heading {
+    font-size: 30px;
+    line-height: 36px;
+    margin-bottom: 20px;
+  }
+  .about-me__box {
+    margin-top: 40px;
+    max-width: 100%;
+  }
+  .about-me__subtitle {
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .about-me__description {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 40px;
+  }
+}

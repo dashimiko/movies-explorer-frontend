@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo__icon.svg';
 import Navigation from '../navigation/Navigation'
 
-function Header() {
+function Header({ onBurgerClick, isBurgerOpen }) {
 
   const location = useLocation();
 
@@ -12,7 +12,7 @@ function Header() {
       <Link to='/' className='header__link button'>
         <img src={logo} alt="Лого проекта" />
       </Link>
-      <Navigation/>
+      <Navigation onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
       </div>
     </div>
   );
