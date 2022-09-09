@@ -13,6 +13,10 @@
   padding: 0;
 }
 
+.navigation__link_active {
+  font-weight: 500;
+}
+
 .navigation__link_main {
   display: none;
 }
@@ -191,8 +195,9 @@
     border: none;
     transition: all.1s linear;
   }
-  .navigation__link_menu:hover {
+  .navigation__link_menu-ative {
     border-bottom: 2px solid #000000;
+    transition: all.1s linear;
   }
 }
 

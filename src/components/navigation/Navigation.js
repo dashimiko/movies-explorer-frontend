@@ -18,7 +18,7 @@ function Navigation({ isBurgerOpen, onBurgerClick }) {
           <nav className={`navigation navigation_state_${isBurgerOpen ? 'opened' : 'closed'}`} onClick={isBurgerOpen ? onBurgerClick : undefined}>
             <ul className={`navigation__list navigation__container navigation_${isBurgerOpen ? 'active' : ''}`}>
               <li className="navigation__item"><Link className="navigation__link navigation__link_main navigation__link_menu link">Главная</Link></li>
-              <li className="navigation__item"><Link className="navigation__link navigation__link_menu link">Фильмы</Link></li>
+              <li className="navigation__item"><Link className="navigation__link navigation__link_active navigation__link_menu-ative link">Фильмы</Link></li>
               <li className="navigation__item"><Link className="navigation__link navigation__link_menu link">Сохранённые фильмы</Link></li>
               <li className="navigation__item navigation__item-profile"><Link className="navigation__link navigation__link_profile link">Аккаунт</Link></li>
             </ul>

@@ -2,6 +2,11 @@ import {Route, Switch} from 'react-router-dom';
 import { useState } from 'react';
 import Main from '../main/Main';
 import Header from '../header/Header';
+import Footer from '../footer/Footer';
+import SearchForm from '../searchForm/SearchForm'
+import MoviesCardList from '../moviesCardList/MoviesCardList'
+
+import {movies} from '../../utils/constants'
 
 function App() {
 
@@ -17,8 +22,17 @@ function App() {
         <Route exact path="/">
           <Main/>
         </Route>
-        <Route path="/movie">
+        <Route path="/movies">
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
+          <SearchForm/>
+          <MoviesCardList movies={movies}/>
+          <Footer/>
+        </Route>
+        <Route path="/saved-movies">
+          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
+          <SearchForm/>
+          <MoviesCardList movies={movies}/>
+          <Footer/>
         </Route>
       </Switch>
 
