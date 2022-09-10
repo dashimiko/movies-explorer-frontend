@@ -70,8 +70,13 @@
 }
 
 .movie__delete {
+  display: none;
   background-image: url(../../images/delete__icon.svg);
   transition: all .2s ease-in;
+}
+
+.movie:hover .movie__delete {
+  display: block;
 }
 
 .movie__button:hover {
@@ -117,5 +122,8 @@
   }
   .movie__like {
     margin: 7px 10px 0 0;
+  }
+  .movie__delete {
+    display: block;
   }
 }

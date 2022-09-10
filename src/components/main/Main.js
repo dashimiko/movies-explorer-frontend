@@ -10,7 +10,7 @@ function Main() {
   return (
     <div className="main">
       <div className="main__content">
-        <Header/>
+        <Header />
         <Promo />
         <AboutProject />
         <Techs />
