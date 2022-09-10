@@ -8,8 +8,8 @@ function AboutMe() {
       <article className="about-me__container">
         <div className='about-me__box'>
           <h3 className='about-me__heading'>Дарья</h3>
-          <p className='about-me__subtitle'>Фронтенд-разработчик, 28 лет</p>
-          <p className='about-me__description'>Я родилась в Хабаровске, сейчас живу в Тбилиси. Получила диплом бакалавра мультимедийной журналистики и магистра истории искусств ДВФУ. Я люблю плавание и иностранные языки, воспитываю кота и попугая. Недавно начала кодить. С 2012 года работаю в независимых СМИ. После окончания курса веб-разработки планирую найти стажировку по новой специальности.</p>
+          <p className='about-me__subtitle'>Начинающий фронтенд-разработчик, 28 лет</p>
+          <p className='about-me__description'>Я родилась в Хабаровске, сейчас живу в Тбилиси. Получила диплом бакалавра мультимедийной журналистики и магистра истории искусств ДВФУ. Я люблю плавание, учу английский язык, воспитываю кота и попугая. Недавно начала кодить. Хочу стать крепким джуном и попасть на стажировку в сильную команду разработчиков.</p>
           <span className='about-me__github'><a className='about-me__link link' rel="noreferrer" target="_blank" href="https://github.com/dashimiko">Github</a></span>
         </div>
         <img className='about-me__picture' alt="фото студента." src={studentPicture}/>
