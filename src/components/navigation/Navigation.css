@@ -197,11 +197,7 @@
     margin-top: calc(100vh - 393px);
     margin-bottom: 90px;
   }
-  .navigation__link_menu {
-    border: none;
-    transition: all.1s linear;
-  }
-  .navigation__link_menu-ative {
+  .navigation__link_menu-active {
     border-bottom: 2px solid #000000;
     transition: all.1s linear;
   }

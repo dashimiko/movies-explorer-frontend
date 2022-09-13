@@ -1,0 +1,17 @@
+
+.error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+}
+
+.register__button-box {
+  margin-top: 134px;
+}
+
+@media screen and (max-width: 568px){
+  .register__button-box {
+    margin-top: 222px;
+  }
+}

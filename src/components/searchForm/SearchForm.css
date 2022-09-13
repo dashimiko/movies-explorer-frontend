@@ -26,6 +26,12 @@
   line-height: 18px;
 }
 
+.search__input:focus {
+  outline-color: black;
+  outline-style: solid;
+  outline-width: 1px;
+}
+
 .search__button {
   width: 70px;
   font-weight: 500;
