@@ -7,8 +7,6 @@
 .movies__list {
   display: grid;
   width: 100%;
-  /*grid-template-columns: repeat(auto-fill,364px);
-  grid-template-rows: repeat(4,281px);*/
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   row-gap: 37px;
   column-gap: 24px;
@@ -34,6 +32,14 @@
   line-height: 15px;
   text-align: center;
   padding: 0;
+}
+
+.movies__notfound {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  margin: 50px auto;
+  text-align: center;
 }
 
 @media screen and (max-width: 967px){

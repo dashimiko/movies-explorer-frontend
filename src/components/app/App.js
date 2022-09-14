@@ -9,8 +9,7 @@ import Profile from '../profile/Profile';
 import Register from '../register/Register';
 import Login from '../login/Login';
 import NotFound from '../notFound/NotFound';
-import InfoToolTip from '../infoToolTip/InfoToolTip'
-
+import InfoToolTip from '../infoToolTip/InfoToolTip';
 import {movies} from '../../utils/constants'
 
 function App() {
@@ -40,13 +39,13 @@ function App() {
         <Route path='/movies'>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
           <SearchForm/>
-          <MoviesCardList movies={movies}/>
+          <MoviesCardList movies={movies} moreMovies={true}/>
           <Footer/>
         </Route>
         <Route path='/saved-movies'>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
           <SearchForm/>
-          <MoviesCardList movies={movies}/>
+          <MoviesCardList movies={movies} moreMovies={false}/>
           <Footer/>
         </Route>
         <Route path='/profile'>

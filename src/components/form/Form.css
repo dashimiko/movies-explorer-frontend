@@ -48,6 +48,10 @@
   border-radius: 3px;
 }
 
+.entry__submit-button_disabled {
+  opacity: 0.8;
+}
+
 .entry__proposition {
   font-weight: 400;
   font-size: 14px;
@@ -75,6 +79,10 @@
   line-height: 17px;
   font-family: inherit;
   border-bottom: 1px solid #E8E8E8;;
+}
+
+.entry__input_invalid {
+  color: #FF4062;
 }
 
 .entry__label {
