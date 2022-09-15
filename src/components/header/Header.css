@@ -19,6 +19,11 @@
   box-sizing: border-box;
 }
 
+.header__link {
+  width: 38px;
+  height: 38px;
+}
+
 .header__logo {
   width: 38px;
   height: 38px;

@@ -102,6 +102,7 @@
     font-size: 30px;
     line-height: 38px;
     margin: 44px 0 24px;
+    letter-spacing: -0.04em;
   }
   .promo__subtitle {
     margin-bottom: 80px;

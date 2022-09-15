@@ -14,7 +14,7 @@
   text-align: center;
   color: #A0A0A0;
   padding: 0;
-  margin: 79px 0 20px;
+  margin: 70px 0 20px;
 }
 
 .footer__line {
@@ -55,7 +55,10 @@
 
 @media screen and (max-width: 967px){
   .footer {
-    padding: 0 30px;
+    padding: 0 30px 20px;
+  }
+  .footer__title {
+    margin-top: 60px;
   }
 }
 
