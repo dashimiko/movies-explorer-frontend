@@ -2,6 +2,7 @@
 @import url(../vendor/fonts/fonts.css);
 
 @import url(../components/app/App.css);
+@import url(../components/commonStyles/CommonStyles.css);
 @import url(../components/main/Main.css);
 @import url(../components/promo/Promo.css);
 @import url(../components/aboutProject/AboutProject.css);

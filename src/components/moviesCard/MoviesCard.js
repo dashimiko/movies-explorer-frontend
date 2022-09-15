@@ -6,7 +6,7 @@ function MoviesCard ({movie}) {
 
   return (
     <article className="movie">
-      <img className="movie__picture" src={movie.picture} alt=""></img>
+      <img className="movie__picture" src={movie.picture} alt={movie.title}></img>
       <div className="movie__container">
         <div className='movie__box'>
           <h2 className="movie__title">{movie.title}</h2>

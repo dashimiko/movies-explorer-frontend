@@ -11,7 +11,7 @@
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
-}/*дефолтный чекбокс, который скрываю*/
+}
 
 .checkbox__invisible-input + .checkbox__visible-input {
   position: relative;
@@ -20,7 +20,7 @@
   background: #EBEBEB;
   border-radius: 20px;
   opacity: 1;
-}/* новый чекбокс вместо дефолтного */
+}
 
 .checkbox__invisible-input:disabled + .checkbox__visible-input {
   position: relative;
@@ -29,7 +29,7 @@
   background: #EBEBEB;
   border-radius: 20px;
   opacity: 1;
-} /* выключенный */
+}
 
 .checkbox__invisible-input:disabled + .checkbox__visible-input::after {
   content: '';
@@ -44,7 +44,7 @@
   z-index: 3;
   transform: translateY(-50%);
   transition: all .3s ease;
-} /* выключенный c псевдоэлементом */
+}
 
 .checkbox__invisible-input:checked + .checkbox__visible-input {
   position: relative;
@@ -53,7 +53,7 @@
   background: #2BE080;;
   border-radius: 20px;
   transition: all .3s ease;
-} /* выбранный */
+}
 
 .checkbox__invisible-input:checked + .checkbox__visible-input::after {
   content: '';
@@ -68,7 +68,7 @@
   z-index: 3;
   transform: translateY(-50%);
   transition: all .3s ease;
-}/* выбранный c псевдоэлементом */
+}
 
 .checkbox__invisible-input:hover + .checkbox__visible-input {
   opacity: 0.8;
@@ -88,7 +88,7 @@
   z-index: 3;
   transform: translateY(-50%);
   transition: all .3s ease;
-} /*новый чекбокс вместе с псевдоэлементом*/
+}
 
 .checkbox__title {
   margin: 0 0 0 12px;
@@ -103,6 +103,5 @@
     margin-left: 13px;
     font-size: 11px;
   }
-
 }
 

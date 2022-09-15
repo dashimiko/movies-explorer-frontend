@@ -1,5 +1,5 @@
 import React from "react";
-import completed from "../../images/completed.png"
+import completed from "../../images/completed.png";
 
 export default function InfoTooltip({isOpen, onClose}) {
   return (

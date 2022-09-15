@@ -1,5 +1,5 @@
 import {Route, Switch, useHistory} from 'react-router-dom';
-import { useState } from 'react';
+import {useState} from 'react';
 import Main from '../main/Main';
 import Header from '../header/Header';
 import Footer from '../footer/Footer';

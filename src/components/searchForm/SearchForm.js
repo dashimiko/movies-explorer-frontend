@@ -1,7 +1,6 @@
 import FilterCheckbox from '../filterCheckbox/FilterCheckbox'
 
 function SearchForm() {
-
   return (
     <section className="search section">
       <form noValidate className="search__form" name="search__form">

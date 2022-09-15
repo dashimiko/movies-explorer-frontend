@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/logo__icon.svg';
 
 function Form({greeting,name,children,onSubmit}) {
-
   return (
     <section className="entry section">
       <div className="entry__box">

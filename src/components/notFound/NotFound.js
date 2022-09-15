@@ -1,5 +1,4 @@
 function NotFound({historyReturn}) {
-
   return (
     <section className="notfound section">
         <h2 className="notfound__title">404</h2>
