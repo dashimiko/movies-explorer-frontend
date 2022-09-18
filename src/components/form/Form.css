@@ -1,0 +1,142 @@
+.entry {
+  display: flex;
+  flex-direction: column;
+  margin: 70px auto 0;
+}
+
+.entry_logo-link {
+  width: 38px;
+  height: 38px;
+}
+
+.entry__box {
+  width: 396px;
+}
+
+.entry__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 40px 0 40px;
+}
+
+.entry__link-box {
+  display: flex;
+  justify-content: center;
+}
+
+.entry__button-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry__submit-button {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  border: none;
+  background-color:#000000;
+  margin-bottom: 16px;
+  color: white;
+  width: 100%;
+  height: 45px;
+  border-radius: 3px;
+}
+
+.entry__submit-button_disabled {
+  opacity: 0.8;
+}
+
+.entry__proposition {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #A0A0A0;
+  margin: 0;
+}
+
+.entry__link {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 0 0 0 6px;
+}
+
+.entry__input {
+  height: 32px;
+  width: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: inherit;
+  border-bottom: 1px solid #E8E8E8;;
+}
+
+.entry__input_invalid {
+  color: #FF4062;
+}
+
+.entry__label {
+  height: 68px;
+  position: relative;
+}
+
+.entry__text {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A0A0A0;
+  margin:0;
+}
+
+.entry__input:focus {
+  outline: none;
+  border-bottom: 1px solid black;
+}
+
+@media screen and (max-width: 967px){
+  .entry {
+    margin: 232px auto 232px;
+  }
+}
+
+@media screen and (max-width: 568px){
+  .entry {
+    margin: 56px auto 30px;
+  }
+
+  .entry_logo-link {
+    margin: 0 auto;
+}
+  .entry__title {
+    margin: 50px 0 80px;
+    text-align: center;
+  }
+  .entry__box {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+  .entry__submit-button {
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 14px;
+  }
+  .entry__proposition {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .entry__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

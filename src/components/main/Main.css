@@ -1,0 +1,5 @@
+.main__content {
+  flex-shrink: 0;
+  display: grid;
+  grid-row-gap: 0;
+}

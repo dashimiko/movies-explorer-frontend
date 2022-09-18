@@ -1,0 +1,9 @@
+.register__button-box {
+  margin-top: 134px;
+}
+
+@media screen and (max-width: 568px){
+  .register__button-box {
+    margin-top: 222px;
+  }
+}
