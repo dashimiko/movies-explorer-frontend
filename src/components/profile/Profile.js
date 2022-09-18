@@ -20,6 +20,7 @@ function Profile() {
   }/*submit imitation*/
 
   return (
+  <main>
     <section className="profile section">
       <h2 className="profile__title">Привет, Дарья!</h2>
       <form className="profile__form" noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -67,6 +68,7 @@ function Profile() {
         </div>
       </form>
     </section>
+  </main>
   );
 }
 

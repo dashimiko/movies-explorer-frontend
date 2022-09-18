@@ -3,6 +3,7 @@ import logo from '../../images/logo__icon.svg';
 
 function Form({greeting,name,children,onSubmit}) {
   return (
+  <main>
     <section className="entry section">
       <div className="entry__box">
         <Link to='/' className='entry_logo-link button'>
@@ -14,6 +15,7 @@ function Form({greeting,name,children,onSubmit}) {
         </form>
       </div>
     </section>
+  </main>
   );
 }
 
