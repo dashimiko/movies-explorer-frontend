@@ -1,5 +1,5 @@
 import {Route, Switch, useHistory} from 'react-router-dom';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import Main from '../main/Main';
 import Header from '../header/Header';
 import Footer from '../footer/Footer';
@@ -10,13 +10,23 @@ import Register from '../register/Register';
 import Login from '../login/Login';
 import NotFound from '../notFound/NotFound';
 import InfoToolTip from '../infoToolTip/InfoToolTip';
-import {movies} from '../../utils/constants'
+
+import {moviesApi} from '../../utils/MoviesApi';
 
 function App() {
+
+  const [movies, setMovies] = useState([]);
 
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(true);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const history = useHistory();
+
+  useEffect(() => {
+    moviesApi.getMovies().then((movies) => {
+      setMovies(movies)
+    }).catch((err) => console.log(err))
+}, [])
+
 
   function onBurgerClick() {
     setIsBurgerOpen(!isBurgerOpen);

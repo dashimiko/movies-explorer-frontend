@@ -5,9 +5,9 @@ function MoviesCardList({movies, moreMovies}) {
     <div className="movies section">
       {/*<p className="movies__notfound">Ничего не найдено</p>*/}
       <ul className="movies__list">
-       {movies.map((movie) => {
+       {movies.length > 0 && movies.map((movie) => {
         return (
-          <MoviesCard key={movie._id} movie={movie}/>
+          <MoviesCard key={movie.id} movie={movie}/>
           );
         })}
       </ul>
