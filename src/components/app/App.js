@@ -19,6 +19,7 @@ function App() {
 
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(true);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -42,8 +43,8 @@ function App() {
 
   function handleSearchSubmit(inputValue) {
     moviesApi.getMovies().then(movies => {
-      const key = inputValue;
-      let searchMovieList = movies.filter(o => o.nameRU === key || o.nameEN === key);
+      const key = inputValue.toLowerCase().trim();
+      const searchMovieList = movies.filter(o => o.nameRU.toLowerCase().trim().indexOf(key) !== -1 || o.nameEN.toLowerCase().trim().indexOf(key) !== -1);
       setMovies(searchMovieList);
     }).catch((err) => console.log(err))
   }
@@ -57,7 +58,7 @@ function App() {
         <Route path='/movies'>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
           <main>
-            <SearchForm handleSearchSubmit={handleSearchSubmit}/>
+            <SearchForm  handleSearchSubmit={handleSearchSubmit}/>
             <MoviesCardList movies={movies} moreMovies={true}/>
           </main>
           <Footer/>

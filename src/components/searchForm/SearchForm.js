@@ -1,6 +1,5 @@
 import FilterCheckbox from '../filterCheckbox/FilterCheckbox';
 import {useState} from 'react';
-import { useForm } from "react-hook-form";
 
 function SearchForm({handleSearchSubmit}) {
 
@@ -20,7 +19,7 @@ function SearchForm({handleSearchSubmit}) {
   return (
     <section className="search section">
       <form className="search__form" noValidate name="search" onSubmit={handleSubmit}>
-        <input onChange={handleInput} value={inputValue} className="search__input" type="text" name="search__input" placeholder="Фильм" required/>
+        <input onChange={handleInput} value={inputValue || ''} className="search__input" type="text" name="search__input" placeholder="Фильм" required/>
         <span className="search__error error"></span>
         <button className="search__button button">Найти</button>
       </form>
