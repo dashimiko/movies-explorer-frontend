@@ -40,6 +40,14 @@ function App() {
     history.goBack();
   }
 
+  function handleSearchSubmit(inputValue) {
+    moviesApi.getMovies().then(movies => {
+      const key = inputValue;
+      let searchMovieList = movies.filter(o => o.nameRU === key || o.nameEN === key);
+      setMovies(searchMovieList);
+    }).catch((err) => console.log(err))
+  }
+
   return (
     <div className="page">
       <Switch>
@@ -49,7 +57,7 @@ function App() {
         <Route path='/movies'>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
           <main>
-            <SearchForm/>
+            <SearchForm handleSearchSubmit={handleSearchSubmit}/>
             <MoviesCardList movies={movies} moreMovies={true}/>
           </main>
           <Footer/>
@@ -57,7 +65,7 @@ function App() {
         <Route path='/saved-movies'>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
           <main>
-            <SearchForm/>
+            <SearchForm />
             <MoviesCardList movies={movies} moreMovies={false}/>
           </main>
           <Footer/>

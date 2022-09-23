@@ -1,6 +1,7 @@
 import MoviesCard from '../moviesCard/MoviesCard';
 
 function MoviesCardList({movies, moreMovies}) {
+
   return (
     <div className="movies section">
       {/*<p className="movies__notfound">Ничего не найдено</p>*/}
