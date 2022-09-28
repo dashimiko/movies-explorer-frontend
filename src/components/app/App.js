@@ -12,22 +12,43 @@ import NotFound from '../notFound/NotFound';
 import InfoToolTip from '../infoToolTip/InfoToolTip';
 
 import {moviesApi} from '../../utils/MoviesApi';
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import ProtectedRoute from '../protectedRoute/ProtectedRoute';
+import {mainApi} from '../../utils/MainApi';
+import * as Auth from '../../utils/auth';
 
 function App() {
 
   const [movies, setMovies] = useState([]);
+  const [moreMovies, setMoreMovies] = useState(false);
 
-  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(true);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-
   const history = useHistory();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [userData, setUserData] = useState('');
 
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+  const [isEntranceCompleted, setisEntranceCompleted] = useState(false);
+  const [InfoTooltipText, setInfoTooltipText] = useState('');
+
+  // получение информации о пользователе
   useEffect(() => {
+    if (loggedIn) {
+      mainApi
+        .getProfile()
+        .then(res => console.log(res))
+        .catch(err =>
+          console.log(err)
+      )
+    }
+  }, [loggedIn]);
+
+  /*useEffect(() => {
     moviesApi.getMovies().then((movies) => {
       setMovies(movies)
     }).catch((err) => console.log(err))
-}, [])
-
+}, [])*/
 
   function onBurgerClick() {
     setIsBurgerOpen(!isBurgerOpen);
@@ -41,42 +62,64 @@ function App() {
     history.goBack();
   }
 
+  function handleShortFilms() {
+    console.log('ghghgh')
+  }
+
   function handleSearchSubmit(inputValue) {
     moviesApi.getMovies().then(movies => {
       const key = inputValue.toLowerCase().trim();
       const searchMovieList = movies.filter(o => o.nameRU.toLowerCase().trim().indexOf(key) !== -1 || o.nameEN.toLowerCase().trim().indexOf(key) !== -1);
       setMovies(searchMovieList);
+      if (searchMovieList.length >= 3) {
+        setMoreMovies(true)
+      }
     }).catch((err) => console.log(err))
   }
 
+  function handleInfoTooltipPopupClick() {
+    setIsInfoTooltipPopupOpen(true);
+  }
+
+  const handleSubmitRegister = (name, email, password) => {
+    Auth.register(name, email, password).then((res) => {
+      if (res) {
+        handleInfoTooltipPopupClick();
+        setisEntranceCompleted(true);
+        setInfoTooltipText('Вы успешно зарегистрировались!');
+      }
+    }).catch(() => {
+      handleInfoTooltipPopupClick();
+      setisEntranceCompleted(false);
+      setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
+    });
+  };
+
   return (
+  <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <Switch>
         <Route exact path='/'>
           <Main/>
         </Route>
-        <Route path='/movies'>
+        <ProtectedRoute path='/movies' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
-          <main>
-            <SearchForm  handleSearchSubmit={handleSearchSubmit}/>
-            <MoviesCardList movies={movies} moreMovies={true}/>
-          </main>
+            <SearchForm  handleSearchSubmit={handleSearchSubmit}  handleShortFilms={handleShortFilms}/>
+            <MoviesCardList movies={movies} moreMovies={moreMovies}/>
           <Footer/>
-        </Route>
-        <Route path='/saved-movies'>
+        </ProtectedRoute>
+        <ProtectedRoute path='/saved-movies' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
-          <main>
             <SearchForm />
-            <MoviesCardList movies={movies} moreMovies={false}/>
-          </main>
+            <MoviesCardList movies={movies} moreMovies={moreMovies}/>
           <Footer/>
-        </Route>
-        <Route path='/profile'>
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
           <Profile/>
-        </Route>
+        </ProtectedRoute>
         <Route path='/signup'>
-          <Register/>
+          <Register handleSubmitRegister={handleSubmitRegister}/>
         </Route>
         <Route path='/signin'>
           <Login/>
@@ -85,8 +128,9 @@ function App() {
           <NotFound historyReturn={historyReturn}/>
         </Route>
       </Switch>
-      <InfoToolTip onClose={closePopup} isOpen={isInfoTooltipPopupOpen}/>
+      <InfoToolTip onClose={closePopup} isOpen={isInfoTooltipPopupOpen} isEntrance={isEntranceCompleted} text={InfoTooltipText}/>
     </div>
+  </CurrentUserContext.Provider>
   );
 }
 

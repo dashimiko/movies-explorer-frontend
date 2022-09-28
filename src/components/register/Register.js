@@ -1,8 +1,13 @@
+import {useState} from 'react';
 import { Link } from 'react-router-dom';
 import Form from "../form/Form";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 
-function Register() {
+function Register({handleSubmitRegister}) {
+
+  const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
   const {
     register,
@@ -15,27 +20,42 @@ function Register() {
     mode: "onChange"
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  function handleNameChange(event) {
+		setName(event.target.value);
+	};
+
+	function handleEmailChange(event) {
+		setEmail(event.target.value);
+	};
+
+	function handlePasswordChange(event) {
+		setPassword(event.target.value);
+	};
+
+  const handleRegister = () => {
+    handleSubmitRegister(name, password, email);
     reset();
-  }/*submit imitation*/
+  };
 
   return (
-    <Form greeting={'Добро пожаловать!'} name={'register'} onSubmit={handleSubmit(onSubmit)}>
+    <Form greeting={'Добро пожаловать!'} name={'register'} onSubmit={handleSubmit(handleRegister)}>
       <label className="entry__label register__label">
         <span className="entry__text">Имя</span>
-        <input {...register("RegisterName",
-          {required: "Поле обязательно к заполнению",
-          minLength: {
-            value: 2,
-            message: 'Должно быть минимум два символа'
-          },
-          maxLength: {
-            value: 30,
-            message: 'Должно быть максимум 30 символов'
-          }
-          })}
-          type="text" className="entry__input register__input register__input_name" required/>
+        <input
+        {...register("RegisterName",
+        {required: "Поле обязательно к заполнению",
+        minLength: {
+          value: 2,
+          message: 'Должно быть минимум два символа'
+        },
+        maxLength: {
+          value: 30,
+          message: 'Должно быть максимум 30 символов'
+        },
+        onChange: (e) => handleNameChange(e),
+        })}
+        value={name || ""}
+        type="text" className="entry__input register__input register__input_name" required/>
         {errors?.RegisterName && <span className="register__error error">{errors?.RegisterName?.message || "Что-то пошло не так..."}</span>}
       </label>
       <label className="entry__label register__label">
@@ -53,8 +73,10 @@ function Register() {
           pattern: {
             value: /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
             message: 'Введите адрес электронной почты'
-          }
+          },
+          onChange: (e) => handleEmailChange(e),
         })}
+        value={email || ""}
         type="email" className='entry__input entry__input_email register__input register__input_email' required/>
         {errors?.RegisterEmail && <span className="email-error register__error error">{errors?.RegisterEmail?.message || "Что-то пошло не так..."}</span>}
       </label>
@@ -68,7 +90,9 @@ function Register() {
           maxLength: {
             value: 50,
           },
+          onChange: (e) => handlePasswordChange(e),
         })}
+        value={password || ""}
         type="password" className={errors?.userPassword
           ? 'entry__input entry__input_password register__input register__input_password entry__input_invalid'
           : 'entry__input entry__input_password register__input register__input_password'} required/>

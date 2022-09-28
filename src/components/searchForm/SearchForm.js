@@ -1,29 +1,29 @@
 import FilterCheckbox from '../filterCheckbox/FilterCheckbox';
 import {useState} from 'react';
 
-function SearchForm({handleSearchSubmit}) {
+function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies}) {
 
   const [inputValue,setInputValue] = useState('');
 
 
-  const handleSubmit = (e) =>{
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     handleSearchSubmit(inputValue);
   }
 
-  const handleInput = (e) => {
+  function handleInput (e) {
     e.preventDefault();
     setInputValue(e.target.value);
   }
 
   return (
     <section className="search section">
-      <form className="search__form" noValidate name="search" onSubmit={handleSubmit}>
+      <form className="search__form" noValidate name="search" onSubmit={handleFormSubmit}>
         <input onChange={handleInput} value={inputValue || ''} className="search__input" type="text" name="search__input" placeholder="Фильм" required/>
         <span className="search__error error"></span>
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox/>
+      <FilterCheckbox handleShortFilms={handleShortFilms} />
       <div className="search__line line"></div>
     </section>
   );
