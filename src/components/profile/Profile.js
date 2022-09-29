@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 
-function Profile() {
+function Profile({signOut}) {
 
   const {
     register,
@@ -64,7 +64,7 @@ function Profile() {
         </div>
         <div className="profile__button-box">
           <button type="submit" disabled={!isValid} className='button profile__submit-button'>Редактировать</button>
-          <Link to="/" className='profile__link link'>Выйти из аккаунта</Link>
+          <Link onClick={signOut} to="/" className='profile__link link'>Выйти из аккаунта</Link>
         </div>
       </form>
     </section>

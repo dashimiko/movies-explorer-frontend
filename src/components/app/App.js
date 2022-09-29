@@ -32,17 +32,25 @@ function App() {
   const [isEntranceCompleted, setisEntranceCompleted] = useState(false);
   const [InfoTooltipText, setInfoTooltipText] = useState('');
 
+  const [isLoading, setisLoading] = useState(true);
+
   // получение информации о пользователе
-  useEffect(() => {
+  /*useEffect(() => {
     if (loggedIn) {
-      mainApi
-        .getProfile()
-        .then(res => console.log(res))
-        .catch(err =>
-          console.log(err)
+      mainApi.getProfile()
+      .then( user => setCurrentUser(user)
+      .catch(err => console.log(err)
       )
     }
-  }, [loggedIn]);
+  }, [loggedIn]);*/
+
+  useEffect(() => {
+    if (loggedIn) {
+      mainApi.getProfile()
+      .then((user) => {
+        setCurrentUser(user);
+      }).catch((err) => console.log(err));
+    }},[loggedIn]);
 
   /*useEffect(() => {
     moviesApi.getMovies().then((movies) => {
@@ -82,47 +90,102 @@ function App() {
   }
 
   const handleSubmitRegister = (name, email, password) => {
-    Auth.register(name, email, password).then((res) => {
-      if (res) {
-        handleInfoTooltipPopupClick();
-        setisEntranceCompleted(true);
-        setInfoTooltipText('Вы успешно зарегистрировались!');
-      }
+    Auth.register(name, email, password).then(() => {
+				handleSubmitLogin(email, password);
+			})
+			.catch(() => {
+				handleInfoTooltipPopupClick();
+        setisEntranceCompleted(false);
+        setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
+			});
+	};
+
+  /*const handleSubmitRegister = (name, email, password) => {
+    Auth.register(name, email, password).then((data) => {
+      console.log(data.password)
+        setLoggedIn(true);
+        history.push("/movies");
     }).catch(() => {
       handleInfoTooltipPopupClick();
       setisEntranceCompleted(false);
       setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
     });
+  };*/
+
+  const handleSubmitLogin = (email, password) => {
+    return Auth.authorize(email, password).then((res) => {
+      mainApi.updateToken(res['token']);
+      setLoggedIn(true);
+      if (res['token']) {
+        localStorage.setItem("jwt", res['token']);
+        tokenCheck();
+      }}).catch((err) => {
+          console.log(err);
+          handleInfoTooltipPopupClick();
+          setisEntranceCompleted(false);
+          setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
+        })
+    };
+
+  const tokenCheck = () => {
+    const jwt = localStorage.getItem('jwt');
+      if (jwt) {
+        Auth.getContent(jwt).then((res) => {
+          if (res) {
+            const userData = res.user;
+            setUserData(userData.email);
+            setLoggedIn(true);
+            setisLoading(false);
+            history.push("/movies");
+          }}).catch((err) => {
+            console.log(err);
+          });
+        } else {
+          setisLoading(false);
+        }
+    };
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  const signOut = () => {
+    localStorage.removeItem('jwt');
+    setUserData('');
+    setLoggedIn(false);
+    history.push('/signin');
   };
+
+  if (isLoading) return null;
 
   return (
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <Switch>
         <Route exact path='/'>
-          <Main/>
+          <Main isEntrance={loggedIn} onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
         </Route>
         <ProtectedRoute path='/movies' loggedIn={loggedIn}>
-          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
+          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
             <SearchForm  handleSearchSubmit={handleSearchSubmit}  handleShortFilms={handleShortFilms}/>
             <MoviesCardList movies={movies} moreMovies={moreMovies}/>
           <Footer/>
         </ProtectedRoute>
         <ProtectedRoute path='/saved-movies' loggedIn={loggedIn}>
-          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
+          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
             <SearchForm />
             <MoviesCardList movies={movies} moreMovies={moreMovies}/>
           <Footer/>
         </ProtectedRoute>
         <ProtectedRoute path='/profile' loggedIn={loggedIn}>
-          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
-          <Profile/>
+          <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
+          <Profile signOut={signOut}/>
         </ProtectedRoute>
         <Route path='/signup'>
           <Register handleSubmitRegister={handleSubmitRegister}/>
         </Route>
         <Route path='/signin'>
-          <Login/>
+          <Login handleSubmitLogin={handleSubmitLogin}/>
         </Route>
         <Route path='*'>
           <NotFound historyReturn={historyReturn}/>

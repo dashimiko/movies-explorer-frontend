@@ -33,7 +33,7 @@ function Register({handleSubmitRegister}) {
 	};
 
   const handleRegister = () => {
-    handleSubmitRegister(name, password, email);
+    handleSubmitRegister(name, email, password);
     reset();
   };
 
@@ -51,6 +51,10 @@ function Register({handleSubmitRegister}) {
         maxLength: {
           value: 30,
           message: 'Должно быть максимум 30 символов'
+        },
+        pattern: {
+          value: /^[А-ЯA-ZёәіңғүұқөһӘІҢҒҮҰҚӨҺ[\]h-]+$/umi,
+          message: 'Допустимы только латиница, кириллица, пробелы и дефисы'
         },
         onChange: (e) => handleNameChange(e),
         })}

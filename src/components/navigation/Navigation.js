@@ -1,12 +1,10 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-function Navigation({ isBurgerOpen, onBurgerClick }) {
-
-  const location = useLocation();
+function Navigation({ isBurgerOpen, onBurgerClick, isEntrance }) {
 
   return (
     <>
-      {location.pathname === '/' ? (
+      {!isEntrance ? (
         <nav className="navigation__button-container">
           <ul className="navigation__button-list">
             <li className="navigation__button-item"><Link to='/signup' className="navigation__button-link link">Регистрация</Link></li>

@@ -2,6 +2,7 @@ export const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_
 
 const checkResponse = (res) => {
   if (res.ok) {
+    console.log(res)
     return res.json();
   }
 
@@ -10,14 +11,14 @@ const checkResponse = (res) => {
   });
 };
 
-export const register = (name, password, email) => {
+export const register = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
     'Accept': 'application/json',
     "Content-Type": "application/json" },
     credentials: 'include',
-    body: JSON.stringify({ name, password, email }),
+    body: JSON.stringify({name, email, password}),
   }).then(checkResponse);
 };
 

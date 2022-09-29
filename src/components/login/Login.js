@@ -1,8 +1,12 @@
+import {useState} from 'react';
 import { Link } from 'react-router-dom';
 import Form from "../form/Form";
 import { useForm } from "react-hook-form";
 
-function Register() {
+function Login({ handleSubmitLogin }) {
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
   const {
     register,
@@ -15,13 +19,21 @@ function Register() {
     mode: "onChange"
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  function handleEmailChange(event) {
+		setEmail(event.target.value);
+	};
+
+	function handlePasswordChange(event) {
+		setPassword(event.target.value);
+	};
+
+  const handleLogin = () => {
+    handleSubmitLogin(email, password);
     reset();
   }
 
   return (
-    <Form greeting={'Рады видеть!'} name={'login'} onSubmit={handleSubmit(onSubmit)}>
+    <Form greeting={'Рады видеть!'} name={'login'} onSubmit={handleSubmit(handleLogin)}>
       <label className="entry__label register__label">
         <span className="entry__text">E-mail</span>
         <input {...register("LoginEmail",
@@ -37,8 +49,10 @@ function Register() {
           pattern: {
             value: /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
             message: 'Введите адрес электронной почты'
-          }
+          },
+          onChange: (e) => handleEmailChange(e),
         })}
+        value={email || ""}
         type="email" className="entry__input entry__input_email register__input register__input_email" required/>
         {errors?.LoginEmail && <span className="email-error register__error error">{errors?.LoginEmail?.message || "Что-то пошло не так..."}</span>}
       </label>
@@ -52,7 +66,9 @@ function Register() {
           maxLength: {
             value: 50,
           },
+          onChange: (e) => handlePasswordChange(e),
         })}
+        value={password || ""}
         type="password" className={errors?.loginPassword
           ? 'entry__input entry__input_password register__input register__input_password entry__input_invalid'
           : 'entry__input entry__input_password register__input register__input_password'} required/>
@@ -69,4 +85,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;
