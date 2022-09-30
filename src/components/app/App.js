@@ -1,4 +1,4 @@
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory, Redirect} from 'react-router-dom';
 import {useState,useEffect} from 'react';
 import Main from '../main/Main';
 import Header from '../header/Header';
@@ -31,16 +31,6 @@ function App() {
   const [InfoTooltipText, setInfoTooltipText] = useState('');
 
   const [isLoading, setisLoading] = useState(true);
-
-  // получение информации о пользователе
-  /*useEffect(() => {
-    if (loggedIn) {
-      mainApi.getProfile()
-      .then( user => setCurrentUser(user)
-      .catch(err => console.log(err)
-      )
-    }
-  }, [loggedIn]);*/
 
   useEffect(() => {
     if (loggedIn) {
@@ -98,7 +88,7 @@ function App() {
         });
         handleInfoTooltipPopupClick();
         setisEntranceCompleted(true);
-        setInfoTooltipText('Данные профиля обновлены');
+        setInfoTooltipText('Данные обновлены');
 			})
 			.catch(() => {
 				handleInfoTooltipPopupClick();
@@ -117,18 +107,6 @@ function App() {
         setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
 			});
 	};
-
-  /*const handleSubmitRegister = (name, email, password) => {
-    Auth.register(name, email, password).then((data) => {
-      console.log(data.password)
-        setLoggedIn(true);
-        history.push("/movies");
-    }).catch(() => {
-      handleInfoTooltipPopupClick();
-      setisEntranceCompleted(false);
-      setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
-    });
-  };*/
 
   const handleSubmitLogin = (email, password) => {
     return Auth.authorize(email, password).then((res) => {
@@ -168,7 +146,7 @@ function App() {
   const signOut = () => {
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    history.push('/signin');
+    history.push('/');
   };
 
   if (isLoading) return null;
@@ -176,36 +154,46 @@ function App() {
   return (
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
+
       <Switch>
+
         <Route exact path='/'>
           <Main isEntrance={loggedIn} onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen}/>
         </Route>
+
         <ProtectedRoute path='/movies' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
             <SearchForm  handleSearchSubmit={handleSearchSubmit}  handleShortFilms={handleShortFilms}/>
             <MoviesCardList movies={movies} moreMovies={moreMovies}/>
           <Footer/>
         </ProtectedRoute>
+
         <ProtectedRoute path='/saved-movies' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
             <SearchForm />
             <MoviesCardList movies={movies} moreMovies={moreMovies}/>
           <Footer/>
         </ProtectedRoute>
+
         <ProtectedRoute path='/profile' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
           <Profile signOut={signOut} handleSubmitUserInfo={handleSubmitUserInfo}/>
         </ProtectedRoute>
+
         <Route path='/signup'>
           <Register handleSubmitRegister={handleSubmitRegister}/>
         </Route>
+
         <Route path='/signin'>
           <Login handleSubmitLogin={handleSubmitLogin}/>
         </Route>
+
         <Route path='*'>
           <NotFound historyReturn={historyReturn}/>
         </Route>
+
       </Switch>
+
       <InfoToolTip onClose={closePopup} isOpen={isInfoTooltipPopupOpen} isEntrance={isEntranceCompleted} text={InfoTooltipText}/>
     </div>
   </CurrentUserContext.Provider>

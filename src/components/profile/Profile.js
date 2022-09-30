@@ -44,11 +44,6 @@ function Profile({signOut, handleSubmitUserInfo}) {
 		setEmail(currentUser.email);
 	}, [currentUser]);
 
-  /*const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  }/*submit imitation*/
-
   return (
   <main>
     <section className="profile section">
