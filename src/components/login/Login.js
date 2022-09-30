@@ -75,7 +75,7 @@ function Login({ handleSubmitLogin }) {
         {errors?.loginPassword && <span className="password-error register__error error">{errors?.loginPassword?.message || "Что-то пошло не так..."}</span>}
       </label>
       <div className="entry__button-box login__button-box">
-        <button type="submit" disabled={!isValid} className={`button ${isValid ? 'entry__submit-button' : 'entry__submit-button entry__submit-button_disabled'}`}>Зарегистрироваться</button>
+        <button type="submit" disabled={!isValid} className={`button ${isValid ? 'entry__submit-button' : 'entry__submit-button entry__submit-button_disabled'}`}>Войти</button>
         <div className="entry__link-box">
           <span className='entry__proposition'>Еще не зарегистрированы?</span>
           <Link to="/signup" className='entry__link link'>Регистрация</Link>

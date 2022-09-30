@@ -10,7 +10,6 @@ import Register from '../register/Register';
 import Login from '../login/Login';
 import NotFound from '../notFound/NotFound';
 import InfoToolTip from '../infoToolTip/InfoToolTip';
-
 import {moviesApi} from '../../utils/MoviesApi';
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
@@ -25,8 +24,7 @@ function App() {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
-  const [userData, setUserData] = useState('');
+  const [currentUser, setCurrentUser] = useState({name: '', email: ''});
 
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [isEntranceCompleted, setisEntranceCompleted] = useState(false);
@@ -48,7 +46,8 @@ function App() {
     if (loggedIn) {
       mainApi.getProfile()
       .then((user) => {
-        setCurrentUser(user);
+        setCurrentUser(user.user);
+        console.log(user.user);
       }).catch((err) => console.log(err));
     }},[loggedIn]);
 
@@ -88,6 +87,25 @@ function App() {
   function handleInfoTooltipPopupClick() {
     setIsInfoTooltipPopupOpen(true);
   }
+
+  const handleSubmitUserInfo = (name, email) => {
+		mainApi.editProfile(name, email)
+			.then((res) => {
+        console.log(res)
+				setCurrentUser({
+          name: res.name,
+          email: res.email,
+        });
+        handleInfoTooltipPopupClick();
+        setisEntranceCompleted(true);
+        setInfoTooltipText('Данные профиля обновлены');
+			})
+			.catch(() => {
+				handleInfoTooltipPopupClick();
+        setisEntranceCompleted(false);
+        setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
+			});
+	};
 
   const handleSubmitRegister = (name, email, password) => {
     Auth.register(name, email, password).then(() => {
@@ -132,8 +150,6 @@ function App() {
       if (jwt) {
         Auth.getContent(jwt).then((res) => {
           if (res) {
-            const userData = res.user;
-            setUserData(userData.email);
             setLoggedIn(true);
             setisLoading(false);
             history.push("/movies");
@@ -151,7 +167,6 @@ function App() {
 
   const signOut = () => {
     localStorage.removeItem('jwt');
-    setUserData('');
     setLoggedIn(false);
     history.push('/signin');
   };
@@ -179,7 +194,7 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path='/profile' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
-          <Profile signOut={signOut}/>
+          <Profile signOut={signOut} handleSubmitUserInfo={handleSubmitUserInfo}/>
         </ProtectedRoute>
         <Route path='/signup'>
           <Register handleSubmitRegister={handleSubmitRegister}/>

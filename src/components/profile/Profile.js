@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom';
+import {useState, useContext, useEffect} from 'react';
 import { useForm } from "react-hook-form";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
-function Profile({signOut}) {
+function Profile({signOut, handleSubmitUserInfo}) {
+
+  const currentUser = useContext(CurrentUserContext);
+
+	const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
 
   const {
     register,
@@ -11,10 +18,33 @@ function Profile({signOut}) {
     handleSubmit,
     reset,
   } = useForm({
-    mode: "onChange"
+    mode: "onChange",
+    defaultValues: {
+			name: currentUser.name,
+			email: currentUser.email,
+		},
   });
 
-  const onSubmit = (data) => {
+  function handleNameChange(event) {
+		setName(event.target.value);
+	};
+
+	function handleEmailChange(event) {
+		setEmail(event.target.value);
+	};
+
+  function handleUserInfo() {
+    console.log(name, email)
+		handleSubmitUserInfo(name, email);
+    reset();
+	}
+
+	useEffect(() => {
+		setName(currentUser.name);
+		setEmail(currentUser.email);
+	}, [currentUser]);
+
+  /*const onSubmit = (data) => {
     console.log(data);
     reset();
   }/*submit imitation*/
@@ -22,8 +52,8 @@ function Profile({signOut}) {
   return (
   <main>
     <section className="profile section">
-      <h2 className="profile__title">Привет, Дарья!</h2>
-      <form className="profile__form" noValidate onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="profile__title">{`Привет, ${name}!`}</h2>
+      <form className="profile__form" noValidate onSubmit={handleSubmit(handleUserInfo)}>
         <div className="profile__form-box">
         <label className="profile__info">
         {errors?.userName && <span className="name-error profile__error error">{errors?.userName?.message || "Что-то пошло не так..."}</span>}
@@ -37,9 +67,15 @@ function Profile({signOut}) {
           maxLength: {
             value: 30,
             message: 'Должно быть максимум 30 символов'
-          }
+          },
+          pattern: {
+            value: /^[А-ЯA-ZёәіңғүұқөһӘІҢҒҮҰҚӨҺ[\]h-]+$/umi,
+            message: 'Допустимы только латиница, кириллица, пробелы и дефисы'
+          },
+          onChange: (e) => handleNameChange(e),
           })}
-        type="text" className="profile__input profile__input_name" placeholder="Дарья"/>
+          value={name || ""}
+        type="text" className="profile__input profile__input_name" placeholder={name || ""}/>
         </label>
         <label className="profile__info">
           <span className="profile__value">E-mail</span>
@@ -56,9 +92,11 @@ function Profile({signOut}) {
           pattern: {
             value: /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
             message: 'Введите адрес электронной почты'
-          }
+          },
+          onChange: (e) => handleEmailChange(e),
         })}
-        type="email" className = "profile__input profile__input_email" placeholder="coder@js.com" minLength="2" maxLength="30" required/>
+        value={email || ""}
+        type="email" className = "profile__input profile__input_email" placeholder={email || ""} minLength="2" maxLength="30" required/>
           {errors?.userEmail && <span className="email-error profile__error error">{errors?.userEmail?.message || "Что-то пошло не так..."}</span>}
         </label>
         </div>
