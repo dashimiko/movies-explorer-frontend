@@ -29,6 +29,10 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, movieSea
       <form className="search__form" noValidate name="search" onSubmit={handleSubmit(handleFormSubmit)}>
         <input {...register('searchForm', {
 					required: 'Нужно ввести ключевое слово',
+          minLength: {
+            value: 1,
+            message: 'Нужно ввести ключевое слово'
+          },
 					onChange: (e) => handleSearchChange(e),
 				})}
         value={searchInputValue || ''}
@@ -36,7 +40,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, movieSea
         {errors?.searchForm && <span className="search__error error">{errors?.searchForm?.message || "Что-то пошло не так..."}</span>}
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox handleShortFilms={handleShortFilms} />
+      <FilterCheckbox handleShortFilms={handleShortFilms} shortMovies={shortMovies}/>
       <div className="search__line line"></div>
     </section>
   );
