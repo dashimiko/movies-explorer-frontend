@@ -3,16 +3,12 @@ import './Preloader.css'
 
 const Preloader = ({isOpen}) => {
   return (
-  <>
-    {isOpen && (
-      <div className="preloader">
+  <div className="preloader">
       <div className="preloader__container">
         <span className="preloader__round"></span>
       </div>
-    </div>
-    )}
-  </>
+  </div>
   )
 };
 
-export default Preloader
+export default Preloader;

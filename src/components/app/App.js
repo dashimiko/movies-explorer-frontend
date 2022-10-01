@@ -3,14 +3,13 @@ import {useState,useEffect} from 'react';
 import Main from '../main/Main';
 import Header from '../header/Header';
 import Footer from '../footer/Footer';
-import SearchForm from '../searchForm/SearchForm';
-import MoviesCardList from '../moviesCardList/MoviesCardList';
+import Movies from '../movies/Movies';
+import SavedMovies from '../savedMovies/SavedMovies';
 import Profile from '../profile/Profile';
 import Register from '../register/Register';
 import Login from '../login/Login';
 import NotFound from '../notFound/NotFound';
 import InfoToolTip from '../infoToolTip/InfoToolTip';
-import {moviesApi} from '../../utils/MoviesApi';
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import {mainApi} from '../../utils/MainApi';
@@ -18,35 +17,20 @@ import * as Auth from '../../utils/auth';
 
 function App() {
 
-  const [movies, setMovies] = useState([]);
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [moreMovies, setMoreMovies] = useState(false);
-
-  const [shortMovies, setShortMovies] = useState(false);
-
-  const isRequestSaved = () => {
-		const request = localStorage.getItem('movieSearch');
-		if (request) {
-			return request;
-		} return '';
-	};
-  const [movieSearch, setMovieSearch] = useState(isRequestSaved())
-
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({name: '', email: ''});
-
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [isEntranceCompleted, setisEntranceCompleted] = useState(false);
   const [InfoTooltipText, setInfoTooltipText] = useState('');
-
-  //const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
     if (loggedIn) {
       mainApi.getProfile()
       .then((user) => {
+        console.log(user)
         setCurrentUser(user.user);
         console.log(user.user);
       }).catch((err) => console.log(err));
@@ -63,38 +47,6 @@ function App() {
   function historyReturn() {
     history.goBack();
   }
-
-  function lengthCount(movieList) {
-    if (movieList.length < 3){
-      setMoreMovies(false);
-    }
-    setMoreMovies(true);
-  }//попытка вынести функцию не увенчалась успехом
-
-  function handleSearchSubmit(inputValue) {
-    moviesApi.getMovies().then(movies => {
-      const key = inputValue.toLowerCase().trim();
-      const searchMovieList = movies.filter(o => o.nameRU.toLowerCase().trim().indexOf(key) !== -1 || o.nameEN.toLowerCase().trim().indexOf(key) !== -1);
-      console.log(searchMovieList)
-      setMovies(searchMovieList);
-      if (searchMovieList.length <= 3){
-        setMoreMovies(false);
-      } else {
-      setMoreMovies(true);
-    }}).catch((err) => console.log(err))
-  }
-
-  //про кино
-  function handleShortFilms() {
-    setShortMovies(!shortMovies);
-    if (!shortMovies) {
-      console.log('ууу')
-    } else {
-      console.log('ккккк')
-    }
-  }
-
-  console.log(moreMovies)
 
   function handleInfoTooltipPopupClick() {
     setIsInfoTooltipPopupOpen(true);
@@ -147,17 +99,18 @@ function App() {
 
   const tokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
+    console.log(jwt);
       if (jwt) {
         Auth.getContent(jwt).then((res) => {
           if (res) {
             setLoggedIn(true);
-            //setisLoading(false);
+            setisLoading(false);
             history.push("/movies");
           }}).catch((err) => {
             console.log(err);
           })
         } else {
-          //setisLoading(false);
+          setisLoading(false);
           console.log('что тут у нас')
         }
     };
@@ -172,14 +125,13 @@ function App() {
     history.push('/');
   };
 
-  //if (isLoading) return null;
+  if (isLoading) return null;
 
   return (
 
 <div className="page">
 
 <CurrentUserContext.Provider value={currentUser}>
-
       <Switch>
 
         <Route exact path='/'>
@@ -188,15 +140,13 @@ function App() {
 
         <ProtectedRoute path='/movies' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
-            <SearchForm  handleSearchSubmit={handleSearchSubmit} handleShortFilms={handleShortFilms} movieSearch={movieSearch} shortMovies={shortMovies}/>
-            <MoviesCardList movies={movies} moreMovies={moreMovies}/>
+            <Movies/>
           <Footer/>
         </ProtectedRoute>
 
         <ProtectedRoute path='/saved-movies' loggedIn={loggedIn}>
           <Header onBurgerClick={onBurgerClick} isBurgerOpen={isBurgerOpen} isEntrance={loggedIn}/>
-            <SearchForm/>
-            <MoviesCardList movies={savedMovies} moreMovies={moreMovies}/>
+            <SavedMovies/>
           <Footer/>
         </ProtectedRoute>
 

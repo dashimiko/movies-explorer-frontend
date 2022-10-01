@@ -74,7 +74,8 @@ class MainApi {
 const token = localStorage.getItem('jwt');
 
 export const mainApi = new MainApi({
-  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3001'}`,
+  //baseUrl: `${window.location.protocol}${'https://api.explorer.students.nomoredomains.sbs' || '//localhost:3001'}`,
+  baseUrl: `https://api.explorer.students.nomoredomains.sbs`,
   headers: {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",

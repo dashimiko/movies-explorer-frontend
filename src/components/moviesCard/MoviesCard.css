@@ -15,6 +15,10 @@
   border-top-right-radius: 6px;
 }
 
+.movie__trailer-link {
+  display: block;
+}
+
 .movie__container {
   display: flex;
   flex-direction: row;
