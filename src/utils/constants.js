@@ -18,7 +18,7 @@ function calculateDuration(time) {
     return filterShortMovies(searchMovieList);
   } else {
     return searchMovieList;
-  }
+  };
 };
 
  //фильтрация короткометражек

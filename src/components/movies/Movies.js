@@ -10,6 +10,7 @@ function Movies() {
   const [moreMovies, setMoreMovies] = useState(false);//кнопка "еще"
   const [shortMovies, setShortMovies] = useState(false);//короткометражки включены или нет
   const [notFound, setNotFound] = useState(true);//состояние movieslist с результатом поиска или 404
+  const [initialMovies, setInitialMovies] = useState([]);//первоначальный список фильмов
 
   const isRequestSaved = () => {
     const request = localStorage.getItem('movieSearch');
@@ -30,19 +31,25 @@ function Movies() {
     }
   }
 
+  //если массив с фильмамы пустой, сообщает: ничего не найдено
+  function isNotFound(value){
+    if (value.length === 0) {
+      setNotFound(false)
+    } else {
+      setNotFound(true)
+    }
+  }
+
   //поиск по сабмиту
   function handleSearchSubmit(inputValue) {
     moviesApi.getMovies().then(movies => {//получает фильмы от апи
-      const searchvalue = filterSearchRequest(inputValue, movies, shortMovies);
-      setMovies(searchvalue);//отображает результаты поиска
-      giveMoreFilms(searchvalue);//решает, нужно ли добавлять кнопку "еще";
+      const filteredvalue = filterSearchRequest(inputValue, movies, shortMovies);//фильтрует
+      setMovies(filteredvalue);//отображает результаты фильтрации
+      setInitialMovies(filteredvalue)//сохраняет в переменную все найденные фильмы
+      giveMoreFilms(filteredvalue);//решает, нужно ли добавлять кнопку "еще";
       localStorage.setItem('movieSearch', inputValue);//сохраняет поисковой запрос в локальное хранилище
       setMovieSearch(inputValue);
-      if (searchvalue.length === 0) {//если массив пустой, сообщает: ничего не найдено
-        setNotFound(false)
-      } else {
-        setNotFound(true)
-      }
+      isNotFound(filteredvalue);//проверят, нужна ли подпись об отсуствии результатов поиска
     }).catch((err) => console.log(err))
   }
 
@@ -50,16 +57,12 @@ function Movies() {
   function handleShortFilms() {
     setShortMovies(!shortMovies);
     if (!shortMovies) {
-      const newMovieValue = filterShortMovies(movies);//фильтруем список фильмов по длительности
+      const newMovieValue = filterShortMovies(initialMovies);//фильтруем список фильмов по длительности
       setMovies(newMovieValue);//перезаписываем значение
-      if (newMovieValue.length === 0) {
-        setNotFound(false)//некорректно работает
-      } else {
-        setNotFound(true)
-      }
+      isNotFound(newMovieValue);//проверяет нужно ли показывать результаты поиска
     } else {
       //вернуть изначальный список фильмов
-      console.log('dfvdfv')
+      setMovies(initialMovies);
     }
   }
 

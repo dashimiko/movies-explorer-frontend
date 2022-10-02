@@ -110,6 +110,7 @@ function App() {
             console.log(err);
           })
         } else {
+          history.push("/");
           setisLoading(false);
           console.log('что тут у нас')
         }
