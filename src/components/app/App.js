@@ -1,4 +1,4 @@
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory,Redirect} from 'react-router-dom';
 import {useState,useEffect} from 'react';
 import Main from '../main/Main';
 import Header from '../header/Header';
@@ -89,6 +89,7 @@ function App() {
       if (res['token']) {
         localStorage.setItem("jwt", res['token']);
         tokenCheck();
+        history.push("/movies");
       }}).catch((err) => {
           console.log(err);
           handleInfoTooltipPopupClick();
@@ -105,12 +106,10 @@ function App() {
           if (res) {
             setLoggedIn(true);
             setisLoading(false);
-            history.push("/movies");
           }}).catch((err) => {
             console.log(err);
           })
         } else {
-          history.push("/");
           setisLoading(false);
           console.log('что тут у нас')
         }
@@ -156,12 +155,17 @@ function App() {
           <Profile signOut={signOut} handleSubmitUserInfo={handleSubmitUserInfo}/>
         </ProtectedRoute>
 
+
         <Route path='/signup'>
-          <Register handleSubmitRegister={handleSubmitRegister}/>
+        {!loggedIn ? (<Register handleSubmitRegister={handleSubmitRegister}/>
+          ) : (
+          <Redirect to='/'/>)}
         </Route>
 
         <Route path='/signin'>
-          <Login handleSubmitLogin={handleSubmitLogin}/>
+        {!loggedIn ? (<Login handleSubmitLogin={handleSubmitLogin}/>
+          ) : (
+          <Redirect to='/'/> )}
         </Route>
 
         <Route path='*'>
