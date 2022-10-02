@@ -94,7 +94,8 @@
     margin: 236px auto 96px;
   }
   .profile__button-box {
-    margin: 194px 0 0 0;
+    /*margin: 194px 0 0 0;*/
+    margin: 94px 0 0 0;
   }
 }
 
@@ -109,7 +110,8 @@
     width: 260px;
   }
   .profile__button-box {
-    margin: 363px 0 0 0;
+    /*margin: 363px 0 0 0;*/
+    margin: 263px 0 0 0;
   }
   .profile__submit-button {
     font-size: 12px;
