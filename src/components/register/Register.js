@@ -90,9 +90,11 @@ function Register({handleSubmitRegister}) {
           {required: "Поле обязательно к заполнению",
           minLength: {
             value: 7,
+            message: 'Слишком короткий пароль'
           },
           maxLength: {
             value: 50,
+            message: 'Слишком длинный пароль'
           },
           onChange: (e) => handlePasswordChange(e),
         })}

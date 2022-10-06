@@ -4,11 +4,11 @@ const checkResponse = (res) => {
   if (res.ok) {
     console.log(res)
     return res.json();
+  } else {
+    return res.json().then((data) => {
+      throw new Error(data.message);
+    });
   }
-
-  return res.json().then((data) => {
-    throw new Error(console.log(data));
-  });
 };
 
 export const register = (name, email, password) => {

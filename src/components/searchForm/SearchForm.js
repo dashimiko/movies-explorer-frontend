@@ -1,10 +1,14 @@
 import FilterCheckbox from '../filterCheckbox/FilterCheckbox';
-import {useState} from 'react';
+import {useState,useContext, useEffect} from 'react';
 import { useForm } from "react-hook-form";
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
+import { useLocation } from 'react-router-dom';
 
-function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, movieSearch}) {
+function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, isDisabled}) {
 
-  const [searchInputValue,setSearchInputValue] = useState(movieSearch);
+  const location = useLocation();
+  const currentUser = useContext(CurrentUserContext);
+  const [searchInputValue,setSearchInputValue] = useState('');
 
   const {
     register,
@@ -13,7 +17,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, movieSea
     },
     handleSubmit,
   } = useForm({
-    mode: "onSubmit"
+    mode: "onSubmit",
   });
 
   function handleFormSubmit() {
@@ -23,6 +27,13 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, movieSea
   function handleSearchChange (event) {
     setSearchInputValue(event.target.value);
   }
+
+  useEffect(() => {
+    if (location.pathname === '/movies' && localStorage.getItem(`${currentUser._id} movieSearch`)) {
+      const searchValue = localStorage.getItem(`${currentUser._id} movieSearch`);
+      setSearchInputValue(searchValue);
+    }
+  }, [currentUser]);
 
   return (
     <section className="search section">
@@ -40,7 +51,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, movieSea
         {errors?.searchForm && <span className="search__error error">{errors?.searchForm?.message || "Что-то пошло не так..."}</span>}
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox handleShortFilms={handleShortFilms} shortMovies={shortMovies}/>
+      <FilterCheckbox /*isDisabled={searchInputValue === ''}*/ handleShortFilms={handleShortFilms} shortMovies={shortMovies}/>
       <div className="search__line line"></div>
     </section>
   );

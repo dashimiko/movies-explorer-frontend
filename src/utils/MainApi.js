@@ -1,29 +1,34 @@
+const validator = require('validator');
+
 class MainApi {
   constructor(options) {
     this._options = options;
   }
 
-  _checkResponse(res) {
+  _checkResponse (res) {
     if (res.ok) {
-      console.log('res ok')
+      console.log(res)
       return res.json();
+    }else {
+      return res.json().then((data) => {
+        throw new Error(data.message);
+      });
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  }
+  };
 
   getSavedMovies() {
     return fetch(this._options.baseUrl + "/movies", {
       headers: this._options.headers,
       credentials: 'include',
     }).then(this._checkResponse).catch(console.log)
-  }//получить все сохраненные фильмы
+  }
 
   getProfile() {
     return fetch(this._options.baseUrl + "/users/me", {
       headers: this._options.headers,
       credentials: 'include',
-    }).then(this._checkResponse).catch(console.log)
-  }//получить данные текущего пользователя
+    }).then(this._checkResponse)
+  }
 
   editProfile(name,email) {
     return fetch(this._options.baseUrl + "/users/me",{
@@ -34,8 +39,8 @@ class MainApi {
         name,
         email
       })
-    }).then(this._checkResponse).catch(console.log)
-  }//отредактировать данные пользователя
+    }).then(this._checkResponse)
+  }
 
   addSavedMovie(movieData) {
     return fetch(this._options.baseUrl + "/movies",{
@@ -49,14 +54,14 @@ class MainApi {
         year: movieData.year,
         description: movieData.description,
         image: movieData.image,
-        trailerLink:movieData.trailerLink,
+        trailerLink: (validator.isURL(movieData.trailerLink) ? movieData.trailerLink : 'https://www.kinopoisk.ru/film/575256/video/type/0/'),
         nameRU: movieData.nameRU,
         nameEN: movieData.nameEN,
         thumbnail: movieData.thumbnail,
-        movieId: movieData.movieId,
+        movieId: movieData.id,
       })
     }).then(this._checkResponse).catch(console.log)
-  }//добавление нового фильма в сохраненное
+  }
 
   deleteSavedMovie(_id) {
     return fetch(this._options.baseUrl + "/movies/" + _id,{
@@ -64,7 +69,7 @@ class MainApi {
       headers: this._options.headers,
       credentials: 'include',
     }).then(this._checkResponse).catch(console.log)
-  }//удаление фильма из сохраненного
+  }
 
   updateToken(token) {
     this._options.headers['Authorization'] = `Bearer ${token}`;
@@ -74,7 +79,6 @@ class MainApi {
 const token = localStorage.getItem('jwt');
 
 export const mainApi = new MainApi({
-  //baseUrl: `${window.location.protocol}${'https://api.explorer.students.nomoredomains.sbs' || '//localhost:3001'}`,
   baseUrl: `https://api.explorer.students.nomoredomains.sbs`,
   headers: {
     Authorization: `Bearer ${token}`,

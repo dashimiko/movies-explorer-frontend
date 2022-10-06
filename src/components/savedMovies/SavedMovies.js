@@ -1,43 +1,76 @@
+import {useState, useContext, useEffect} from 'react';
 import SearchForm from '../searchForm/SearchForm';
 import MoviesCardList from '../moviesCardList/MoviesCardList';
-import { useState } from 'react';
-import {moviesApi} from '../../utils/MoviesApi';
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
+import {filterShortMovies, filterSearchRequest} from '../../utils/utils';
 
-function SavedMovies() {
+function SavedMovies({onMovieDelete, savedCardListMovies}) {
 
-  const [movies, setMovies] = useState([]);//массив фильмов
-  const [moreMovies, setMoreMovies] = useState(false);//кнопка "еще"
-  const [shortMovies, setShortMovies] = useState(false);//короткометражки
+  const currentUser = useContext(CurrentUserContext);
+  const [cardListMovies, setСardListMovies] = useState(savedCardListMovies);
+  const [filteredMovies, setFilteredMovies] = useState(cardListMovies);
+  const [shortMovies, setShortMovies] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
-  //поиск по сабмиту
-  function handleSearchSubmit(inputValue) {
-    moviesApi.getMovies().then(movies => {//получаем фильмы от апи
-      const key = inputValue.toLowerCase().trim();//берем ключ из валью инпута
-      //преобразовываем свалку названий фильмов: нижний регистр, без пробелов + поиск по массиву через indexOf
-      const searchMovieList = movies.filter(o => o.nameRU.toLowerCase().trim().indexOf(key) !== -1 || o.nameEN.toLowerCase().trim().indexOf(key) !== -1);
-      setMovies(searchMovieList);//отображаем результаты поиска
-      if (searchMovieList.length <= 3){
-        setMoreMovies(false);//контролируем кнопку еще
-      } else {
-      setMoreMovies(true);
-    }}).catch((err) => console.log(err))
-  }
-
-  //cостояние чекбокса: тут будет фильтрация по duration
-  function handleShortFilms() {
-    setShortMovies(!shortMovies);
-    if (!shortMovies) {
-      console.log('ууу')
+  function handleSavedSearchSubmit(inputValue) {
+    const moviesList = filterSearchRequest(savedCardListMovies, inputValue);
+    if (moviesList.length === 0) {
+      setNotFound(true);
     } else {
-      console.log('ккккк')
+      setFilteredMovies(moviesList);
+      setСardListMovies(moviesList);
+      setNotFound(false);
     }
   }
 
+  function handleSavedShortFilms() {
+    if (!shortMovies) {
+      setShortMovies(true);
+      setСardListMovies(filterShortMovies(filteredMovies));
+      filterShortMovies(filteredMovies).length === 0 ? setNotFound(true) : setNotFound(false);
+      localStorage.setItem(`${currentUser._id} shortSavedMovies`, true);
+    } else {
+      setShortMovies(false);
+      localStorage.setItem(`${currentUser._id} shortSavedMovies`, false);
+      if (filteredMovies.length !== 0) {
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
+      setСardListMovies(filteredMovies);
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem(`${currentUser._id} shortSavedMovies`) === 'true') {
+      setShortMovies(true);
+      setСardListMovies(filterShortMovies(savedCardListMovies));
+    } else {
+      setShortMovies(false);
+      setСardListMovies(savedCardListMovies);
+    }
+  }, [savedCardListMovies, currentUser]);
+
+  useEffect(() => {
+    setFilteredMovies(savedCardListMovies);
+    if (savedCardListMovies.length !== 0) {
+      setNotFound(false);
+    } else {
+      setNotFound(true);
+    }
+  }, [savedCardListMovies]);
+
   return (
-		<>
-			<SearchForm handleSearchSubmit={handleSearchSubmit} handleShortFilms={handleShortFilms} movieSearch={""} shortMovies={shortMovies}/>
-			<MoviesCardList movies={movies} moreMovies={moreMovies}/>
-		</>
+    <>
+    <SearchForm handleSearchSubmit={handleSavedSearchSubmit}
+    handleShortFilms={handleSavedShortFilms}
+    shortMovies={shortMovies}/>
+
+    <MoviesCardList cardListMovies={cardListMovies}
+    savedCardListMovies={savedCardListMovies}
+    onMovieDelete={onMovieDelete}
+    notFound={notFound}/>
+   </>
 	);
 }
 

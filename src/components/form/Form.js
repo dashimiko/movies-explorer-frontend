@@ -9,7 +9,9 @@ function Form({greeting,name,children,onSubmit}) {
           <img src={logo} alt="Лого проекта" />
         </Link>
         <h2 className="entry__title">{greeting}</h2>
-        <form className={`entry__form entry-form__${name}`} name={name} onSubmit={onSubmit}>
+        <form className={`entry__form entry-form__${name}`}
+        name={name}
+        onSubmit={onSubmit}>
          {children}
         </form>
       </div>

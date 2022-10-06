@@ -96,7 +96,7 @@ function Profile({signOut, handleSubmitUserInfo}) {
         </label>
         </div>
         <div className="profile__button-box">
-          <button type="submit" disabled={!isValid} className='button profile__submit-button'>Редактировать</button>
+          <button type="submit" disabled={!isValid || (name === currentUser.name && email === currentUser.email)} className='button profile__submit-button'>Редактировать</button>
           <Link onClick={signOut} to="/" className='profile__link link'>Выйти из аккаунта</Link>
         </div>
       </form>
