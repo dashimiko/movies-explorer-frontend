@@ -9,6 +9,7 @@ function Profile({signOut, handleSubmitUserInfo}) {
 
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
+  const [isDisabledButton, setIsDisabledButton] = useState(true);
 
   const {
     register,
@@ -43,6 +44,16 @@ function Profile({signOut, handleSubmitUserInfo}) {
 		setName(currentUser.name);
 		setEmail(currentUser.email);
 	}, [currentUser]);
+
+  useEffect(() => {
+    if (name === currentUser.name && email === currentUser.email) {
+			setIsDisabledButton(true);
+		} else if (isValid || (name === currentUser.name || email !== currentUser.email) || (name !== currentUser.name || email === currentUser.email)) {
+			setIsDisabledButton(false);
+		} else if (!isValid) {
+			setIsDisabledButton(true);
+		}
+	}, [currentUser.name, currentUser.email, isValid, name, email]);
 
   return (
   <main>
@@ -96,7 +107,7 @@ function Profile({signOut, handleSubmitUserInfo}) {
         </label>
         </div>
         <div className="profile__button-box">
-          <button type="submit" disabled={!isValid || (name === currentUser.name && email === currentUser.email) || (email === currentUser.email && name === currentUser.name)} className='button profile__submit-button'>Редактировать</button>
+          <button type="submit" disabled={isDisabledButton} className='button profile__submit-button'>Редактировать</button>
           <Link onClick={signOut} to="/" className='profile__link link'>Выйти из аккаунта</Link>
         </div>
       </form>

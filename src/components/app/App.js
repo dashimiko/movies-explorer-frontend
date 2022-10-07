@@ -173,6 +173,7 @@ function App() {
     setCurrentUser({});
     localStorage.removeItem('jwt');
     setLoggedIn(false);
+    localStorage.clear();
     history.push('/');
   };
 
@@ -238,8 +239,6 @@ function App() {
       }
     }
   }, [currentUser]);
-
-  console.log(localStorage)
 
   if (isLoading) return null;
 
