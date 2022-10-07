@@ -186,6 +186,8 @@ function App() {
             setLoggedIn(true);
             setIsLoader(true)
             setisLoading(false);
+          } else {
+            setLoggedIn(false);
           }}).catch((err) => {
             console.log(err);
           })
@@ -236,6 +238,8 @@ function App() {
       }
     }
   }, [currentUser]);
+
+  console.log(localStorage)
 
   if (isLoading) return null;
 
