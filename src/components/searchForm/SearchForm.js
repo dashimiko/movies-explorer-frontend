@@ -28,6 +28,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, isDisabl
     setSearchInputValue(event.target.value);
   }
 
+
   useEffect(() => {
     if (location.pathname === '/movies' && localStorage.getItem(`${currentUser._id} movieSearch`)) {
       const searchValue = localStorage.getItem(`${currentUser._id} movieSearch`);
@@ -51,7 +52,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, isDisabl
         {errors?.searchForm && <span className="search__error error">{errors?.searchForm?.message || "Что-то пошло не так..."}</span>}
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox /*isDisabled={searchInputValue === ''}*/ handleShortFilms={handleShortFilms} shortMovies={shortMovies}/>
+      <FilterCheckbox isDisabled={!searchInputValue && location.pathname === '/movies' ? true : false} handleShortFilms={handleShortFilms} shortMovies={shortMovies}/>
       <div className="search__line line"></div>
     </section>
   );

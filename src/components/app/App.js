@@ -155,6 +155,7 @@ function App() {
     } localStorage.setItem(`${currentUser._id} shortMovies`, !shortMovies);
   }
 
+
   function handleMovieLike(movie) {
     mainApi.addSavedMovie(movie).then(res => setsavedCardListMovies([res, ...savedCardListMovies]))
     .catch(err => console.log(err));

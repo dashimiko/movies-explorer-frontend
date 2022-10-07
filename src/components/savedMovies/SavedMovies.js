@@ -11,8 +11,9 @@ function SavedMovies({onMovieDelete, savedCardListMovies}) {
   const [filteredMovies, setFilteredMovies] = useState(cardListMovies);
   const [shortMovies, setShortMovies] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-  function handleSavedSearchSubmit(inputValue) {
+  const handleSavedSearchSubmit = (inputValue) => {
     const moviesList = filterSearchRequest(savedCardListMovies, inputValue);
     if (moviesList.length === 0) {
       setNotFound(true);
@@ -21,9 +22,10 @@ function SavedMovies({onMovieDelete, savedCardListMovies}) {
       setСardListMovies(moviesList);
       setNotFound(false);
     }
+    setFilteredMovies(shortMovies ? filterShortMovies(moviesList) : moviesList);
   }
 
-  function handleSavedShortFilms() {
+  const handleSavedShortFilms = () => {
     if (!shortMovies) {
       setShortMovies(true);
       setСardListMovies(filterShortMovies(filteredMovies));
@@ -32,12 +34,10 @@ function SavedMovies({onMovieDelete, savedCardListMovies}) {
     } else {
       setShortMovies(false);
       localStorage.setItem(`${currentUser._id} shortSavedMovies`, false);
-      if (filteredMovies.length !== 0) {
-        setNotFound(false);
-      } else {
-        setNotFound(true);
-      }
-      setСardListMovies(filteredMovies);
+      console.log(filteredMovies.length)
+      setСardListMovies(filteredMovies)
+      const moviesList = filteredMovies.length;
+      moviesList === 0 ? setNotFound(true) : setNotFound(false);
     }
   }
 
@@ -53,10 +53,10 @@ function SavedMovies({onMovieDelete, savedCardListMovies}) {
 
   useEffect(() => {
     setFilteredMovies(savedCardListMovies);
-    if (savedCardListMovies.length !== 0) {
-      setNotFound(false);
-    } else {
+    if (savedCardListMovies.length === 0) {
       setNotFound(true);
+    } else {
+      setNotFound(false);
     }
   }, [savedCardListMovies]);
 

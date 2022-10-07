@@ -5,6 +5,10 @@
   flex-grow: 1;
 }
 
+.movies section {
+  min-height: 100vh;
+}
+
 .movies__list {
   display: grid;
   width: 100%;
@@ -39,8 +43,9 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  margin: 50px auto;
+  margin: 100px auto;
   text-align: center;
+  transition: transform .1s ease-in;
 }
 
 @media screen and (max-width: 967px){
