@@ -1,0 +1,9 @@
+export const DESKTOP = 957;
+export const MOBILE = 568;
+export const TOTAL_COUNT_DESKTOP = 12;
+export const TOTAL_COUNT_TABLET = 8;
+export const TOTAL_COUNT_MOBILE = 5;
+export const MORE_FILMS_DESKTOP = 3;
+export const MORE_FILMS_TABLET = 2;
+export const MORE_FILMS_MOBILE = 2;
+export const SHORT_MOVIES_DURATION = 40;

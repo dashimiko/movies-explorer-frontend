@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import useWindowWidth from '../../hooks/useWindowWidth.js';
 import MoviesCard from '../moviesCard/MoviesCard';
-import Preloader from '../../components/preloader/Preloader'
+import Preloader from '../../components/preloader/Preloader';
+import {
+  DESKTOP,
+  MOBILE,
+  TOTAL_COUNT_DESKTOP,
+  TOTAL_COUNT_TABLET,
+  TOTAL_COUNT_MOBILE,
+  MORE_FILMS_DESKTOP,
+  MORE_FILMS_TABLET,
+  MORE_FILMS_MOBILE
+} from '../../utils/constants'
 
 function MoviesCardList({cardListMovies, savedCardListMovies, onMovieLike, onMovieDelete, notFound, searchError, isLoader}) {
 
@@ -14,12 +24,12 @@ function MoviesCardList({cardListMovies, savedCardListMovies, onMovieLike, onMov
 
   useEffect(() => {
     if (location.pathname === '/movies') {
-      if (screenWidth.width > 957 && screenWidth.width > 568) {
-        setCardsParams({totalCount: 12, moreFilms: 3});
-      } else if (screenWidth.width <= 957 && screenWidth.width > 568) {
-        setCardsParams({totalCount: 8, moreFilms: 2});
+      if (screenWidth.width > DESKTOP && screenWidth.width > MOBILE) {
+        setCardsParams({totalCount: TOTAL_COUNT_DESKTOP, moreFilms: MORE_FILMS_DESKTOP});
+      } else if (screenWidth.width <= DESKTOP && screenWidth.width > MOBILE) {
+        setCardsParams({totalCount: TOTAL_COUNT_TABLET, moreFilms: MORE_FILMS_TABLET});
       } else {
-        setCardsParams({totalCount: 5, moreFilms: 2});
+        setCardsParams({totalCount: TOTAL_COUNT_MOBILE, moreFilms: MORE_FILMS_MOBILE});
       }
     }
   }, [screenWidth, location.pathname]);

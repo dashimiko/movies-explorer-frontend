@@ -1,3 +1,5 @@
+import {SHORT_MOVIES_DURATION} from '../utils/constants'
+
 function calculateDuration(time) {
   if (Math.trunc(time/60) === 0) {
     return `${time}м`;
@@ -16,7 +18,7 @@ function calculateDuration(time) {
 };
 
  function filterShortMovies(movies) {
-  return movies.filter(movie => movie.duration < 40);
+  return movies.filter(movie => movie.duration < SHORT_MOVIES_DURATION);
 };
 
 export {

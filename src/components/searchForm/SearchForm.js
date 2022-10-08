@@ -55,7 +55,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, isDisabl
         {errors?.searchForm && <span className="search__error error">{errors?.searchForm?.message || "Что-то пошло не так..."}</span>}
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox /*isDisabled={!searchInputValue && location.pathname !== '/saved-movies' ? true : false}*/
+      <FilterCheckbox isDisabled={!searchInputValue && location.pathname !== '/saved-movies' ? true : false}
       handleShortFilms={handleShortSubmit}
       shortMovies={shortMovies}/>
       <div className="search__line line"></div>
