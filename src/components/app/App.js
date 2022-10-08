@@ -1,4 +1,3 @@
-import {filterShortMovies,filterSearchRequest} from '../../utils/utils';
 import {Route, Switch, useHistory,Redirect} from 'react-router-dom';
 import {useState,useEffect} from 'react';
 import Main from '../main/Main';
@@ -14,7 +13,6 @@ import InfoToolTip from '../infoToolTip/InfoToolTip';
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import {mainApi} from '../../utils/MainApi';
-import {moviesApi} from '../../utils/MoviesApi'
 import * as Auth from '../../utils/auth';
 
 function App() {
@@ -28,12 +26,6 @@ function App() {
   const [InfoTooltipText, setInfoTooltipText] = useState('');
   const [isLoading, setisLoading] = useState(true);
   const [savedCardListMovies, setsavedCardListMovies] = useState([]);
-  const [shortMovies, setShortMovies] = useState(false);
-  const [initialMovies, setInitialMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const [notFound, setNotFound] = useState(false);
-  const [isAllMovies, setIsAllMovies] = useState([]);
-  const [searchError, setSearchError] = useState(false)
   const [isLoader, setIsLoader] = useState(false)
 
   useEffect(() => {
@@ -109,53 +101,6 @@ function App() {
         });
     };
 
-  function handleSetFilteredMovies(movies, search, shortMovies) {
-    const moviesList = filterSearchRequest(movies, search);
-    if (moviesList.length === 0) {
-      setNotFound(true)
-    } else {
-      setNotFound(false);
-    }
-    setInitialMovies(moviesList);
-    setFilteredMovies(shortMovies ? filterShortMovies(moviesList) : moviesList);
-    localStorage.setItem(`${currentUser._id} movies`, JSON.stringify(moviesList));
-  }
-
-  function adaptMovieImage(movies) {
-    movies.forEach(movie => {
-      movie.thumbnail = movie.thumbnail ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}` : 'https://nic-pnb.ru/wp-content/uploads/2014/09/no-foto-2.jpg';
-      movie.image = movie.image ? `https://api.nomoreparties.co${movie.image.url}` : 'https://nic-pnb.ru/wp-content/uploads/2014/09/no-foto-2.jpg';
-    });
-    return movies;
-  }
-
-  function handleSearchSubmit(inputValue) {
-    localStorage.setItem(`${currentUser._id} shortMovies`, shortMovies);
-    localStorage.setItem(`${currentUser._id} movieSearch`, inputValue);
-    if (isAllMovies.length === 0) {
-      setIsLoader(true);
-      moviesApi.getMovies().then(movies => {
-        setIsAllMovies(movies);
-        handleSetFilteredMovies(adaptMovieImage(movies),inputValue,shortMovies);
-      }).catch(() => setSearchError(true))
-      .finally(() => setIsLoader(false));
-    } else {
-      handleSetFilteredMovies(isAllMovies, inputValue,shortMovies);
-    }
-  }
-
-  function handleShortFilms() {
-    setShortMovies(!shortMovies);
-    if (!shortMovies) {
-      setFilteredMovies(filterShortMovies(initialMovies));
-      filterShortMovies(filteredMovies).length === 0 ? setNotFound(true) : setNotFound(false);
-    } else {
-      setFilteredMovies(initialMovies);
-      initialMovies.length === 0 ? setNotFound(true) : setNotFound(false);
-    } localStorage.setItem(`${currentUser._id} shortMovies`, !shortMovies);
-  }
-
-
   function handleMovieLike(movie) {
     mainApi.addSavedMovie(movie).then(res => setsavedCardListMovies([res, ...savedCardListMovies]))
     .catch(err => console.log(err));
@@ -198,14 +143,6 @@ function App() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem(`${currentUser._id} shortMovies`) === 'true') {
-      setShortMovies(true);
-    } else {
-      setShortMovies(false);
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
     if (loggedIn && currentUser) {
       mainApi
         .getSavedMovies()
@@ -222,23 +159,6 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, []);
-
-  useEffect(() => {
-    if (!localStorage.getItem(`${currentUser._id} movies`)) {
-      setFilteredMovies([])
-    } else {
-      const movies = JSON.parse(localStorage.getItem(`${currentUser._id} movies`));
-      setInitialMovies(movies);
-      if (
-        localStorage.getItem(`${currentUser._id} shortMovies`) === 'true'
-      ) {
-        setFilteredMovies(filterShortMovies(movies));
-      } else {
-        setFilteredMovies(movies);
-        console.log(movies)
-      }
-    }
-  }, [currentUser]);
 
   if (isLoading) return null;
 
@@ -263,13 +183,7 @@ function App() {
             <Movies savedCardListMovies={savedCardListMovies}
             onMovieLike={handleMovieLike}
             onMovieDelete={handleMovieDelete}
-            handleSearchSubmit={handleSearchSubmit}
-            handleShortFilms={handleShortFilms}
-            shortMovies={shortMovies}
-            notFound={notFound}
-            filteredMovies={filteredMovies}
-            isLoader={isLoader}
-            searchError={searchError}/>
+            isLoader={isLoader}/>
           <Footer/>
         </ProtectedRoute>
 
