@@ -15,6 +15,7 @@ export default function Movies({ savedCardListMovies, onMovieLike, onMovieDelete
   const [searchError, setSearchError] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
   const [startMovies, setStartMovies] = useState([]);
+  const [disabledCheckbox, setDisabledCheckbox] = useState(false);
 
   function adaptMovieImage(movies) {
     movies.forEach(movie => {
@@ -49,6 +50,7 @@ export default function Movies({ savedCardListMovies, onMovieLike, onMovieDelete
         setStartMovies(movies);
         setIsAllMovies(movies);
         handleSetFilteredMovies(adaptMovieImage(movies),inputValue,shortMovies);
+        setDisabledCheckbox(true)
       }).catch(() => setSearchError(true))
       .finally(() => setIsLoader(false));
     } else {
@@ -107,7 +109,8 @@ export default function Movies({ savedCardListMovies, onMovieLike, onMovieDelete
     <SearchForm handleSearchSubmit={handleSearchSubmit}
     handleShortFilms={handleShortFilms}
     shortMovies={shortMovies}
-    notFound={notFound}/>
+    notFound={notFound}
+    disabledCheckbox={disabledCheckbox}/>
 
     <MoviesCardList cardListMovies={filteredMovies}
     savedCardListMovies={savedCardListMovies}

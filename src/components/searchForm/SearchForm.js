@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import { useLocation } from 'react-router-dom';
 
-function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, isDisabled}) {
+function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, disabledCheckbox}) {
 
   const location = useLocation();
   const currentUser = useContext(CurrentUserContext);
@@ -55,7 +55,7 @@ function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, isDisabl
         {errors?.searchForm && <span className="search__error error">{errors?.searchForm?.message || "Что-то пошло не так..."}</span>}
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox isDisabled={!searchInputValue && location.pathname !== '/saved-movies' ? true : false}
+      <FilterCheckbox isDisabled={!searchInputValue && !disabledCheckbox && location.pathname !== '/saved-movies' ? true : false}
       handleShortFilms={handleShortSubmit}
       shortMovies={shortMovies}/>
       <div className="search__line line"></div>
