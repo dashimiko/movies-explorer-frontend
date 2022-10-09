@@ -53,7 +53,8 @@ function Login({ handleSubmitLogin }) {
           onChange: (e) => handleEmailChange(e),
         })}
         value={email || ""}
-        type="email" className="entry__input entry__input_email register__input register__input_email" required/>
+        type="email"
+        className="entry__input entry__input_email register__input register__input_email" required/>
         {errors?.LoginEmail && <span className="email-error register__error error">{errors?.LoginEmail?.message || "Что-то пошло не так..."}</span>}
       </label>
       <label className="entry__label register__label">

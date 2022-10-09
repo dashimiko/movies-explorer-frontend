@@ -59,6 +59,7 @@ export default function Movies({ savedCardListMovies, onMovieLike, onMovieDelete
   function renderShortFilms (inputValue) {
     const moviesList = filterSearchRequest(isAllMovies, inputValue)
     localStorage.setItem(`${currentUser._id} allmovies`, JSON.stringify(isAllMovies));
+    localStorage.setItem(`${currentUser._id} movieSearch`, inputValue);
     if (!shortMovies) {
       setShortMovies(true);
       setFilteredMovies(filterShortMovies(moviesList));
