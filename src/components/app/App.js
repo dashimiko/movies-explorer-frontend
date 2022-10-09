@@ -26,7 +26,7 @@ function App() {
   const [InfoTooltipText, setInfoTooltipText] = useState('');
   const [isLoading, setisLoading] = useState(true);
   const [savedCardListMovies, setsavedCardListMovies] = useState([]);
-  const [isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
     if (loggedIn) {

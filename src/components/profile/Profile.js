@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext, useEffect, useRef} from 'react';
 import { useForm } from "react-hook-form";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
@@ -7,8 +7,8 @@ function Profile({signOut, handleSubmitUserInfo}) {
 
   const currentUser = useContext(CurrentUserContext);
 
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
+	const [name, setName] = useState(currentUser.name);
+	const [email, setEmail] = useState(currentUser.email);
   const [isDisabledButton, setIsDisabledButton] = useState(true);
 
   const {
@@ -17,7 +17,6 @@ function Profile({signOut, handleSubmitUserInfo}) {
       errors, isValid
     },
     handleSubmit,
-    reset,
     setValue,
   } = useForm({
     mode: "onChange",
@@ -37,10 +36,19 @@ function Profile({signOut, handleSubmitUserInfo}) {
     setValue('email', event.target.value);
 	};
 
+  const nameRef = useRef(currentUser.name);
+  const emailRef = useRef(currentUser.email);
+  nameRef.current = currentUser.name;
+  emailRef.current = currentUser.email;
+
   function handleUserInfo() {
-    console.log(name, email)
 		handleSubmitUserInfo(name, email);
-    reset();
+    setTimeout(() => {
+      setName(nameRef.current);
+    }, 500);
+    setTimeout(() => {
+      setEmail(emailRef.current);
+    }, 500);
 	}
 
 	useEffect(() => {
@@ -49,6 +57,7 @@ function Profile({signOut, handleSubmitUserInfo}) {
     setValue('name', currentUser.name);
     setValue('email', currentUser.email)
 	}, [currentUser]);
+
 
   useEffect(() => {
     if (name === currentUser.name && email === currentUser.email) {
