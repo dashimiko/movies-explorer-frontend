@@ -9,6 +9,15 @@ function SavedMovies({onMovieDelete, savedCardListMovies}) {
   const [shortMovies, setShortMovies] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
+  useEffect(() => {
+    setСardListMovies(savedCardListMovies);
+    if (savedCardListMovies.length === 0) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
+  }, [savedCardListMovies]);
+
   const handleSavedSearchSubmit = (inputValue) => {
     if (shortMovies) {
       const moviesList = filterSearchRequest(savedCardListMovies, inputValue);
@@ -38,20 +47,11 @@ function SavedMovies({onMovieDelete, savedCardListMovies}) {
     setTimeout(renderShortFilms, 100, inputValue);
   }
 
-  useEffect(() => {
-    setСardListMovies(savedCardListMovies);
-    if (savedCardListMovies.length === 0) {
-      setNotFound(true);
-    } else {
-      setNotFound(false);
-    }
-  }, [savedCardListMovies]);
-
   return (
     <>
     <SearchForm handleSearchSubmit={handleSavedSearchSubmit}
     handleShortFilms={handleSavedShortFilms}
-    shortMovies={shortMovies} /*isDisabled={false}*//>
+    shortMovies={shortMovies}/>
 
     <MoviesCardList cardListMovies={cardListMovies}
     savedCardListMovies={savedCardListMovies}

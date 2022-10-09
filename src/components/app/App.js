@@ -56,13 +56,12 @@ function App() {
   }
 
   const handleSubmitUserInfo = (name, email) => {
+    setIsLoader(true);
 		mainApi.editProfile(name, email)
 			.then((res) => {
         console.log(res)
-				setCurrentUser({
-          name: res.name,
-          email: res.email,
-        });
+        console.log(res.name)
+				setCurrentUser(res);
         handleInfoTooltipPopupClick();
         setisEntranceCompleted(true);
         setInfoTooltipText('Данные обновлены');
@@ -72,7 +71,7 @@ function App() {
 				handleInfoTooltipPopupClick();
         setisEntranceCompleted(false);
         setInfoTooltipText(`${err.message}`);
-			})
+			}).finally(()=> setIsLoader(false))
 	};
 
   const handleSubmitRegister = (name, email, password) => {
