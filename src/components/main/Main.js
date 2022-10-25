@@ -6,11 +6,13 @@ import AboutMe from '../aboutMe/AboutMe';
 import Portfolio from '../portfolio/Portfolio';
 import Footer from '../footer/Footer'
 
-function Main() {
+function Main({isEntrance,isBurgerOpen,onBurgerClick}) {
   return (
     <div className="main">
       <div className="main__content">
-        <Header />
+        <Header isEntrance={isEntrance}
+        isBurgerOpen={isBurgerOpen}
+        onBurgerClick={onBurgerClick}/>
         <Promo />
         <AboutProject />
         <Techs />

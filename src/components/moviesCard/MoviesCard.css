@@ -15,6 +15,10 @@
   border-top-right-radius: 6px;
 }
 
+.movie__trailer-link {
+  display: block;
+}
+
 .movie__container {
   display: flex;
   flex-direction: row;
@@ -64,11 +68,12 @@
 
 .movie__like {
   background-image: url(../../images/like__icon.svg);
-  transition: transform .4s ease-in;
+  transition: transform .05s ease-in;
 }
 
 .movie__like_active {
   background-image: url(../../images/like-active__icon.svg);
+  transition: transform .05s ease-in;
 }
 
 .movie__delete {
@@ -104,6 +109,9 @@
   .movie__like {
     margin: 8px 14px 0 0;
   }
+  .movie__delete {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 568px){
@@ -124,8 +132,5 @@
   }
   .movie__like {
     margin: 7px 10px 0 0;
-  }
-  .movie__delete {
-    display: block;
   }
 }

@@ -44,9 +44,10 @@
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
-  right: 0;
+  right: 3px;
   top: 50%;
   transform: translateY(-50%);
+  border-radius: 15px;
 }
 
 .navigation__button-list {

@@ -1,14 +1,63 @@
-import FilterCheckbox from '../filterCheckbox/FilterCheckbox'
+import FilterCheckbox from '../filterCheckbox/FilterCheckbox';
+import {useState,useContext, useEffect} from 'react';
+import { useForm } from "react-hook-form";
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
+import { useLocation } from 'react-router-dom';
 
-function SearchForm() {
+function SearchForm({handleSearchSubmit, handleShortFilms, shortMovies, disabledCheckbox}) {
+
+  const location = useLocation();
+  const currentUser = useContext(CurrentUserContext);
+  const [searchInputValue,setSearchInputValue] = useState('');
+
+  const {
+    register,
+    formState : {
+      errors,
+    },
+    handleSubmit,
+  } = useForm({
+    mode: "onSubmit",
+  });
+
+  function handleFormSubmit() {
+    handleSearchSubmit(searchInputValue);
+  }
+
+  function handleSearchChange (event) {
+    setSearchInputValue(event.target.value);
+  }
+
+  function handleShortSubmit() {
+    handleShortFilms(searchInputValue);
+  }
+
+  useEffect(() => {
+    if (location.pathname === '/movies' && localStorage.getItem(`${currentUser._id} movieSearch`)) {
+      const searchValue = localStorage.getItem(`${currentUser._id} movieSearch`);
+      setSearchInputValue(searchValue);
+    }
+  }, [currentUser]);
+
   return (
     <section className="search section">
-      <form noValidate className="search__form" name="search__form">
-        <input className="search__input" type="text" name="search__input" placeholder="Фильм" required/>
-        <span className="search__error"></span>
+      <form className="search__form" noValidate name="search" onSubmit={handleSubmit(handleFormSubmit)}>
+        <input {...register('searchForm', {
+					required: 'Нужно ввести ключевое слово',
+          minLength: {
+            value: 1,
+            message: 'Нужно ввести ключевое слово'
+          },
+					onChange: (e) => handleSearchChange(e),
+				})}
+        value={searchInputValue || ''}
+        type="text" className="search__input" placeholder="Фильм"/>
+        {errors?.searchForm && <span className="search__error error">{errors?.searchForm?.message || "Что-то пошло не так..."}</span>}
         <button className="search__button button">Найти</button>
       </form>
-      <FilterCheckbox/>
+      <FilterCheckbox isDisabled={!searchInputValue && !disabledCheckbox && location.pathname !== '/saved-movies' ? true : false}
+      handleShortFilms={handleShortSubmit}
+      shortMovies={shortMovies}/>
       <div className="search__line line"></div>
     </section>
   );
