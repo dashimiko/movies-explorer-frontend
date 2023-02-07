@@ -34,7 +34,8 @@ function App() {
       mainApi.getProfile()
       .then((user) => {
         setCurrentUser(user.user);
-      }).catch((err) => console.log(err))
+      })
+      .catch((err) => console.log(err))
       .finally(()=> setIsLoader(false))
     }
   },[loggedIn]);
@@ -59,58 +60,62 @@ function App() {
     setIsLoader(true);
 		mainApi.editProfile(name, email)
 			.then((res) => {
-        console.log(res)
-        console.log(res.name)
 				setCurrentUser(res);
         handleInfoTooltipPopupClick();
         setisEntranceCompleted(true);
         setInfoTooltipText('Данные обновлены');
 			})
 			.catch((err) => {
-        console.log(err)
 				handleInfoTooltipPopupClick();
         setisEntranceCompleted(false);
         setInfoTooltipText(`${err.message}`);
-			}).finally(()=> setIsLoader(false))
+			})
+      .finally(()=> setIsLoader(false))
 	};
 
   const handleSubmitRegister = (name, email, password) => {
-    Auth.register(name, email, password).then(() => {
-				handleSubmitLogin(email, password);
-			})
-			.catch((err) => {
-				handleInfoTooltipPopupClick();
-        setisEntranceCompleted(false);
-        setInfoTooltipText(`${err.message}`);
-			});
+    Auth.register(name, email, password)
+    .then(() => {
+			handleSubmitLogin(email, password);
+		})
+		.catch((err) => {
+			handleInfoTooltipPopupClick();
+      setisEntranceCompleted(false);
+      setInfoTooltipText(`${err.message}`);
+		});
 	};
 
   const handleSubmitLogin = (email, password) => {
-    return Auth.authorize(email, password).then((res) => {
+    return Auth.authorize(email, password)
+    .then((res) => {
       mainApi.updateToken(res['token']);
       setLoggedIn(true);
       if (res['token']) {
         localStorage.setItem("jwt", res['token']);
         tokenCheck();
         history.push("/movies");
-      }}).catch((err) => {
-          handleInfoTooltipPopupClick();
-          setisEntranceCompleted(false);
-          setInfoTooltipText(`${err.message}`);
-        });
+      }})
+    .catch((err) => {
+        handleInfoTooltipPopupClick();
+        setisEntranceCompleted(false);
+        setInfoTooltipText(`${err.message}`);
+      });
     };
 
   function handleMovieLike(movie) {
-    mainApi.addSavedMovie(movie).then(res => setsavedCardListMovies([res, ...savedCardListMovies]))
+    mainApi.addSavedMovie(movie)
+    .then(res => setsavedCardListMovies([res, ...savedCardListMovies]))
     .catch(err => console.log(err));
   }
 
   function handleMovieDelete(movie) {
     const savedMovie = savedCardListMovies.find((i) => i.movieId === movie.id || i.movieId === movie.movieId);
-    mainApi.deleteSavedMovie(savedMovie._id).then(() => {
+    mainApi.deleteSavedMovie(savedMovie._id)
+    .then(() => {
       const newMoviesList = savedCardListMovies.filter(i => (movie.id === i.movieId || movie.movieId === i.movieId) ? false : true);
       setsavedCardListMovies(newMoviesList);
-    }).catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
   }
 
   const signOut = () => {
@@ -123,17 +128,18 @@ function App() {
 
   const tokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
-    console.log(jwt);
       if (jwt) {
         setIsLoader(true)
-        Auth.getContent(jwt).then((res) => {
+        Auth.getContent(jwt)
+        .then((res) => {
           if (res) {
             setLoggedIn(true);
             setIsLoader(true)
             setisLoading(false);
           } else {
             setLoggedIn(false);
-          }}).catch((err) => {
+          }})
+        .catch((err) => {
             console.log(err);
           })
         } else {
@@ -149,9 +155,7 @@ function App() {
           const UserMoviesList = data.filter(m => m.owner === currentUser._id);
           setsavedCardListMovies(UserMoviesList.map(i => i).reverse());
         })
-        .catch(err =>
-          console.log(err)
-        )
+        .catch(err => console.log(err))
     }
   }, [currentUser, loggedIn]);
 
